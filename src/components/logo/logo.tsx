@@ -32,7 +32,7 @@ export const Logo = forwardRef<HTMLDivElement, LogoProps>(
     const PRIMARY_DARKER = theme.vars.palette.primary.dark;
 
     const singleLogo = (
-      <Box alt="Single logo" component="img" src="/logo/single.svg" width="100%" height="100%" />
+      <Box alt="Single logo" component="img" src="/logo/logo.png" width="100%" height="100%" />
     );
 
     const fullLogo = (
