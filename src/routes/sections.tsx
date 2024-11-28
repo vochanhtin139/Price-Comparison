@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -7,6 +7,7 @@ import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgr
 import { varAlpha } from 'src/theme/styles';
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
+import PropTypes from 'prop-types';
 
 // ----------------------------------------------------------------------
 
@@ -18,6 +19,10 @@ export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
+
+interface ProtectedRouteProps {
+  children: React.ReactNode; // Proper type for children
+}
 
 const renderFallback = (
   <Box display="flex" alignItems="center" justifyContent="center" flex="1 1 auto">
@@ -32,15 +37,65 @@ const renderFallback = (
   </Box>
 );
 
+// const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+//   const accessToken = localStorage.getItem('accessToken'); // Check for token in localStorage
+//   return accessToken ? <>{children}</> : <Navigate to="/sign-in" replace />;
+// };
+
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const [isValid, setIsValid] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const validateToken = async () => {
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        setIsValid(false);
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:8080/api/auth/verify-token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        if (response.ok) {
+          setIsValid(true);
+        } else {
+          setIsValid(false);
+        }
+      } catch (error) {
+        setIsValid(false);
+      }
+    };
+
+    validateToken()
+  }, []);
+
+  if (isValid === null)
+    return renderFallback
+
+  return isValid ? <>{children}</> : <Navigate to="/sign-in" replace />;
+};
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired, // Explicit validation for children prop
+};
+
 export function Router() {
   return useRoutes([
     {
       element: (
-        <DashboardLayout>
-          <Suspense fallback={renderFallback}>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
+        <ProtectedRoute>
+          <DashboardLayout>
+            <Suspense fallback={renderFallback}>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        </ProtectedRoute>
       ),
       children: [
         { element: <HomePage />, index: true },
