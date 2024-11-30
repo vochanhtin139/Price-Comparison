@@ -7,11 +7,26 @@ export type InputNumberValue = string | number | null | undefined;
 
 type Options = Intl.NumberFormatOptions | undefined;
 
-const DEFAULT_LOCALE = { code: 'en-US', currency: 'USD' };
+// const DEFAULT_LOCALE = { code: 'en-US', currency: 'USD' };
+const DEFAULT_LOCALE = { code: 'vi-VN', currency: 'VND' };
 
 function processInput(inputValue: InputNumberValue): number | null {
-  if (inputValue == null || Number.isNaN(inputValue)) return null;
-  return Number(inputValue);
+  // if (inputValue == null || Number.isNaN(inputValue)) return null;
+  // return Number(inputValue);
+  if (inputValue == null) return null;
+
+  if (typeof inputValue === 'string') {
+    const sanitizedValue = inputValue.replace(/\./g, '').replace(/,/g, '');
+    if (Number.isNaN(Number(sanitizedValue))) return null;
+
+    return Number(sanitizedValue);
+  }
+
+  if (typeof inputValue === 'number') {
+    return inputValue;
+  }
+
+  return null;
 }
 
 // ----------------------------------------------------------------------

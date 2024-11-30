@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PropTypes from 'prop-types';
 import { lazy, Suspense, useState, useEffect } from 'react';
 import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
@@ -7,7 +9,7 @@ import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgr
 import { varAlpha } from 'src/theme/styles';
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
-import PropTypes from 'prop-types';
+import { ProductDetailPage } from 'src/sections/product/view/product-detail-page';
 
 // ----------------------------------------------------------------------
 
@@ -15,6 +17,7 @@ export const HomePage = lazy(() => import('src/pages/home'));
 export const BlogPage = lazy(() => import('src/pages/blog'));
 export const UserPage = lazy(() => import('src/pages/user'));
 export const SignInPage = lazy(() => import('src/pages/sign-in'));
+// eslint-disable-next-line import/no-cycle
 export const ProductsPage = lazy(() => import('src/pages/products'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
@@ -24,7 +27,7 @@ interface ProtectedRouteProps {
   children: React.ReactNode; // Proper type for children
 }
 
-const renderFallback = (
+export const renderFallback = (
   <Box display="flex" alignItems="center" justifyContent="center" flex="1 1 auto">
     <LinearProgress
       sx={{
@@ -101,6 +104,7 @@ export function Router() {
         { element: <HomePage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
+        { path: 'product/:id', element: <ProductDetailPage /> },
         { path: 'blog', element: <BlogPage /> },
       ],
     },

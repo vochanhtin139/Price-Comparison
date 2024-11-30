@@ -1,14 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { createShop, getAllShops } from 'src/api/api';
 
 // ----------------------------------------------------------------------
 
-export function useScrollToTop() {
-  const { pathname } = useLocation();
+export default function useShop() {
+  const [shops, setShops] = useState([]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  const fetchShops = async () => {
+    try {
+      const data = await getAllShops();
+      setShops(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-  return null;
+  const handleCreateShop = async (shop: any) => {
+    try {
+      const data = await createShop(shop);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return {
+    shops,
+    fetchShops,
+    handleCreateShop
+  }
 }

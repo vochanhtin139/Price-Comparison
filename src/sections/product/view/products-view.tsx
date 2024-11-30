@@ -1,9 +1,14 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Unstable_Grid2';
 import Pagination from '@mui/material/Pagination';
 import Typography from '@mui/material/Typography';
+
+// eslint-disable-next-line import/no-cycle
+import { renderFallback } from 'src/routes/sections';
+
+import useProduct from 'src/hooks/products/use-product';
 
 import { _products } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
@@ -58,6 +63,14 @@ const defaultFilters = {
 };
 
 export function ProductsView() {
+  const { loading, error, success, shopeeProducs, fetchShopeeProducts} = useProduct();
+
+  useEffect(() => {
+    fetchShopeeProducts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  console.log(shopeeProducs);
+
   const [sortBy, setSortBy] = useState('featured');
 
   const [openFilter, setOpenFilter] = useState(false);
@@ -86,6 +99,7 @@ export function ProductsView() {
 
   return (
     <DashboardContent>
+      {loading && <Box>{renderFallback}</Box>}
       <Typography variant="h4" sx={{ mb: 5 }}>
         Products
       </Typography>
@@ -131,8 +145,8 @@ export function ProductsView() {
       </Box>
 
       <Grid container spacing={3}>
-        {_products.map((product) => (
-          <Grid key={product.id} xs={12} sm={6} md={3}>
+        {shopeeProducs.map((product) => (
+          <Grid key={product.productName} xs={12} sm={6} md={3}>
             <ProductItem product={product} />
           </Grid>
         ))}

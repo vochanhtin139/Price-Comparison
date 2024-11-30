@@ -8,6 +8,9 @@ import { fCurrency } from 'src/utils/format-number';
 
 import { Label } from 'src/components/label';
 import { ColorPreview } from 'src/components/color-utils';
+import IShopeeProduct from 'src/hooks/products/product.interface';
+import { RatingView } from 'src/components/color-utils/rating-view';
+import { useNavigate } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -21,11 +24,12 @@ export type ProductItemProps = {
   priceSale: number | null;
 };
 
-export function ProductItem({ product }: { product: ProductItemProps }) {
+export function ProductItem({ product }: { product: IShopeeProduct }) {
   const renderStatus = (
     <Label
       variant="inverted"
-      color={(product.status === 'sale' && 'error') || 'info'}
+      // color={(product.status === 'sale' && 'error') || 'info'}
+      color="error"
       sx={{
         zIndex: 9,
         top: 16,
@@ -34,15 +38,16 @@ export function ProductItem({ product }: { product: ProductItemProps }) {
         textTransform: 'uppercase',
       }}
     >
-      {product.status}
+      {/* {product.status} */}
+      sale
     </Label>
   );
 
   const renderImg = (
     <Box
       component="img"
-      alt={product.name}
-      src={product.coverUrl}
+      alt={product.productName}
+      src={product.productImageLink}
       sx={{
         top: 0,
         width: 1,
@@ -63,28 +68,47 @@ export function ProductItem({ product }: { product: ProductItemProps }) {
           textDecoration: 'line-through',
         }}
       >
-        {product.priceSale && fCurrency(product.priceSale)}
+        {/* {product.priceSale && fCurrency(product.priceSale)} */}
       </Typography>
       &nbsp;
-      {fCurrency(product.price)}
+      {/* {fCurrency(product.price)} */}
+      {fCurrency(product.productPrice)}
     </Typography>
   );
 
+  const navigate = useNavigate();
+
   return (
-    <Card>
+    <Card sx={{ cursor: 'pointer'}} onClick={() => navigate(`/product/${product.productName}`)}>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        {product.status && renderStatus}
+        {/* {product.status && renderStatus} */}
+        {renderStatus}
 
         {renderImg}
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
-          {product.name}
+        <Link
+          color="inherit"
+          underline="hover"
+          variant="subtitle2"
+          noWrap={false}
+          sx={{
+            display: '-webkit-box',
+            WebkitBoxOrient: 'vertical',
+            WebkitLineClamp: 2,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            lineHeight: '1.5',
+            minHeight: '3em',
+          }}
+        >
+          {product.productName}
         </Link>
 
         <Box display="flex" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={product.colors} />
+          {/* <ColorPreview colors={product.colors} /> */}
+          <RatingView rating={product.productRating} />
           {renderPrice}
         </Box>
       </Stack>
