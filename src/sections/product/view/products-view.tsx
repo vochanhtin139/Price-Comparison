@@ -63,13 +63,13 @@ const defaultFilters = {
 };
 
 export function ProductsView() {
-  const { loading, error, success, shopeeProducs, fetchShopeeProducts} = useProduct();
+  const { loading, error, success, shopeeProducts, fetchShopeeProducts} = useProduct();
 
   useEffect(() => {
     fetchShopeeProducts();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(shopeeProducs);
+  console.log(shopeeProducts);
 
   const [sortBy, setSortBy] = useState('featured');
 
@@ -145,7 +145,7 @@ export function ProductsView() {
       </Box>
 
       <Grid container spacing={3}>
-        {shopeeProducs.map((product) => (
+        {shopeeProducts.map((product) => (
           <Grid key={product.productName} xs={12} sm={6} md={3}>
             <ProductItem product={product} />
           </Grid>

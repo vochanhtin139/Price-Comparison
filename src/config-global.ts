@@ -10,6 +10,6 @@ export type ConfigValue = {
 // ----------------------------------------------------------------------
 
 export const CONFIG: ConfigValue = {
-  appName: 'CCA Assessment',
+  appName: 'Price Comparing Tool',
   appVersion: packageJson.version,
 };

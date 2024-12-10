@@ -59,9 +59,18 @@ export function ProductItem({ product }: { product: IShopeeProduct }) {
   );
 
   const renderPrice = (
-    <Typography variant="subtitle1">
+    <Typography variant="subtitle1" color='error' textAlign='end'>
       <Typography
-        component="span"
+        variant="caption"
+        sx={{
+          color: 'text.disabled',
+          textDecoration: 'line-through',
+        }}
+      >
+        {fCurrency(parseInt(product.productPrice.replace(/\./g, ''), 10) + 599000)}
+      </Typography>
+      <Typography
+        // component="span"
         variant="body1"
         sx={{
           color: 'text.disabled',
@@ -106,7 +115,7 @@ export function ProductItem({ product }: { product: IShopeeProduct }) {
           {product.productName}
         </Link>
 
-        <Box display="flex" alignItems="center" justifyContent="space-between">
+        <Box display="flex" alignItems="end" justifyContent="space-between">
           {/* <ColorPreview colors={product.colors} /> */}
           <RatingView rating={product.productRating} />
           {renderPrice}

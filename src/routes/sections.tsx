@@ -75,11 +75,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
       }
     };
 
-    validateToken()
+    validateToken();
   }, []);
 
-  if (isValid === null)
-    return renderFallback
+  if (isValid === null) return renderFallback;
 
   return isValid ? <>{children}</> : <Navigate to="/sign-in" replace />;
 };
