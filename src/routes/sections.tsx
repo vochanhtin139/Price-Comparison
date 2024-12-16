@@ -10,6 +10,8 @@ import { varAlpha } from 'src/theme/styles';
 import { AuthLayout } from 'src/layouts/auth';
 import { DashboardLayout } from 'src/layouts/dashboard';
 import { ProductDetailPage } from 'src/sections/product/view/product-detail-page';
+import { ShopLinkCreate } from 'src/sections/shop-link/view/shop-link-create';
+import { ShopLinkView } from 'src/sections/shop-link/view';
 
 // ----------------------------------------------------------------------
 
@@ -61,7 +63,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+            'Authorization': `Bearer ${accessToken}`,
+            // 'Authorization': `Bearer ${import.meta.env.VITE_API_KEY}`,
           },
         });
 
@@ -103,8 +106,12 @@ export function Router() {
         { element: <HomePage />, index: true },
         { path: 'user', element: <UserPage /> },
         { path: 'products', element: <ProductsPage /> },
-        { path: 'product/:id', element: <ProductDetailPage /> },
+        // { path: 'product/:id', element: <ProductDetailPage /> },
+        { path: 'product-detail/:id', element: <ProductDetailPage /> },
         { path: 'blog', element: <BlogPage /> },
+        { path : 'shop-links', element: <ShopLinkView /> },
+        { path : 'shop-link/:id', element: <ShopLinkCreate /> },
+        { path : 'shop-link/new', element: <ShopLinkCreate /> },
       ],
     },
     {

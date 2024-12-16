@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import { Box, Typography, Grid, Paper, Rating, Divider, Chip } from '@mui/material';
 
@@ -11,20 +11,22 @@ import { PriceChart } from './price-chart';
 
 export function ProductDetailPage() {
   const { id } = useParams();
-  console.log('id', id);
-  const { shopeeProduct, fetchShopeeProductByName, shopeeProducts, fetchShopeeProductsByName } =
-    useProduct();
+  // const location = useLocation();
+  // const params = new URLSearchParams(location.search);
+  // const productLink = params.get('productLink');
+
+  const { shopeeProduct, fetchShopeeProductById, shopeeProducts, fetchShopeeProductsById } = useProduct();
 
   useEffect(() => {
     if (id) {
-      fetchShopeeProductByName(id);
-      // fetchShopeeProductsByName(id);
+      fetchShopeeProductById(id);
+      fetchShopeeProductsById(id);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
-  // console.log(shopeeProduct);
-  // console.log(shopeeProducts);
+  console.log(shopeeProduct);
+  console.log(shopeeProducts);
 
   return (
     <Box sx={{ p: 4, bgcolor: 'white', m: 2, borderRadius: 2 }}>
@@ -32,8 +34,7 @@ export function ProductDetailPage() {
         <Grid item xs={12} md={5}>
           <Paper elevation={0} sx={{ padding: 2 }}>
             <img
-              // src={shopeeProduct?.productImageLink}
-              src="https://cf.shopee.vn/file/1f"
+              src={shopeeProduct?.productImageLink}
               alt="product"
               style={{ width: '100%', borderRadius: 8 }}
             />
@@ -43,7 +44,7 @@ export function ProductDetailPage() {
         <Grid item xs={12} md={7}>
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-              {/* {shopeeProduct?.productName} */}
+              {shopeeProduct?.productName}
             </Typography>
 
             <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 1 }}>
@@ -53,15 +54,12 @@ export function ProductDetailPage() {
               </Typography>
             </Box>
 
-            {/* Giá sản phẩm */}
             <Box sx={{ marginTop: 2, bgcolor: '#FAFAFA', py: 1, px: 2 }}>
               <Typography
                 variant="h4"
                 sx={{ fontWeight: 'bold', color: 'red', display: 'inline-block' }}
               >
-                {/* {fCurrency(
-                  parseInt((shopeeProduct?.productPrice ?? '0').replace(/\./g, ''), 10) + 599000
-                )} */}
+                {fCurrency(shopeeProduct?.productPrice)}
                 &nbsp;
                 <Typography
                   component="span"
@@ -71,22 +69,18 @@ export function ProductDetailPage() {
                     textDecoration: 'line-through',
                   }}
                 >
-                  {/* {fCurrency(shopeeProduct?.productPrice)} */}
+                  {fCurrency(
+                  parseInt((shopeeProduct?.productPrice ?? '0').replace(/\./g, ''), 10) + 599000
+                )}
                 </Typography>
               </Typography>
             </Box>
 
-            {/* Biểu đồ giá */}
             <Box sx={{ marginTop: 4, border: '1px solid #1977F2', borderRadius: 2, p: 2 }}>
-              {/* <PriceChart /> */}
+              <PriceChart data={shopeeProducts} />
             </Box>
           </Box>
         </Grid>
-        {/* <Grid item xs={12} md={8}>
-          <Box sx={{ marginTop: 4, border: '1px solid #1977F2', borderRadius: 2, p: 2 }}>
-            <PriceChart />
-          </Box>
-        </Grid> */}
       </Grid>
     </Box>
   );

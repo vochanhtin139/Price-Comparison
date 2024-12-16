@@ -1,5 +1,7 @@
 import 'src/global.css';
 
+import { SnackbarProvider } from 'notistack';
+
 import Fab from '@mui/material/Fab';
 
 import { Router } from 'src/routes/sections';
@@ -17,7 +19,9 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <Router />
+      <SnackbarProvider>
+        <Router />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

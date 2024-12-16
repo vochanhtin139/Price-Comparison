@@ -28,6 +28,11 @@ export const navData = [
       </Label>
     ),
   },
+  {
+    title: 'Shop',
+    path: '/shop-links',
+    icon: icon('ic-cart'),
+  },
   // {
   //   title: 'Blog',
   //   path: '/blog',

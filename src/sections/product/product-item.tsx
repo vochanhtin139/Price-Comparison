@@ -88,7 +88,7 @@ export function ProductItem({ product }: { product: IShopeeProduct }) {
   const navigate = useNavigate();
 
   return (
-    <Card sx={{ cursor: 'pointer'}} onClick={() => navigate(`/product/${product.productName}`)}>
+    <Card sx={{ cursor: 'pointer'}} onClick={() => navigate(`/product-detail/${product.productLinkId}`)}>
       <Box sx={{ pt: '100%', position: 'relative' }}>
         {/* {product.status && renderStatus} */}
         {renderStatus}

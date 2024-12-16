@@ -14,7 +14,7 @@ export default function useShop() {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const handleCreateShop = async (shop: any) => {
     try {
@@ -22,11 +22,11 @@ export default function useShop() {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return {
     shops,
     fetchShops,
-    handleCreateShop
-  }
+    handleCreateShop,
+  };
 }

@@ -1,0 +1,101 @@
+{
+    "general": {
+        "appName": "Price Comparing Tool",
+        "appImage": "/logo/logo.png",
+        "appLink": "/"
+    },
+    "pages": {
+        "login": {
+            "title": "Login",
+            "image": ""
+        },
+        "manageStudent": {
+            "title": "Students",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "manageResult": {
+            "title": "Results",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "manageCourse": {
+            "title": "Courses",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "manageAssessment": {
+            "title": "Assessments",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "newShopLink": {
+            "title": "New shop link",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/shop-links",
+                    "label": "Shop Links"
+                }
+            ]
+        },
+        "user": {
+            "title": "New user",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/users",
+                    "label": "Users"
+                }
+            ]
+        },
+        "course": {
+            "title": "New course",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/courses",
+                    "label": "Courses"
+                }
+            ]
+        },
+        "assessment": {
+            "title": "New assessment",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/assessments",
+                    "label": "Assessments"
+                }
+            ]
+        }
+    }
+}

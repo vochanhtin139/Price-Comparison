@@ -1,5 +1,6 @@
 export default interface IShopeeProduct {
     // id: string
+    productLinkId: string
     shopLink: string
     productLink: string
     productName: string
