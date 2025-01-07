@@ -65,10 +65,7 @@ export function ShopLinkCreate() {
     }, [success])
 
     const { newShopLink } = data.pages
-    console.log('newShopLink', newShopLink)
     const { getValues } = shopLinkMethods
-    
-    console.log('getValues', getValues())
 
     return (
         <DashboardContent>

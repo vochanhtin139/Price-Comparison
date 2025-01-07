@@ -46,7 +46,7 @@
             ]
         },
         "newShopLink": {
-            "title": "New shop link",
+            "title": "New shop crawler",
             "breadcrumb": [
                 {
                     "href": "/",
@@ -54,7 +54,33 @@
                 },
                 {
                     "href": "/shop-links",
-                    "label": "Shop Links"
+                    "label": "Shop Crawler"
+                }
+            ]
+        },
+        "newCategoryLink": {
+            "title": "New category crawler",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/category-links",
+                    "label": "Category Crawler"
+                }
+            ]
+        },
+        "newProductLink": {
+            "title": "New product crawler",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/product-links",
+                    "label": "Product Crawler"
                 }
             ]
         },

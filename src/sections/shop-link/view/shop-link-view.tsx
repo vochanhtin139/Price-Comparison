@@ -76,7 +76,7 @@ export function ShopLinkView() {
         <DashboardContent>
             <Box display='flex' alignItems='center' mb={5}>
                 <Typography variant='h4' flexGrow={1}>
-                    Shop Links
+                    Shop Crawlers
                 </Typography>
                 <Button
                     variant='contained'

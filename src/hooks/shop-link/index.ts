@@ -1,3 +1,4 @@
+import { cleanedLink } from './../../utils/format-url';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -12,46 +13,40 @@ export default function useShopLink() {
     const [shopLinks, setShopLinks] = useState<IShopLink[]>([])
     const [shopLink, setShopLink] = useState<IShopLink | null>(null)
 
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('accessToken')
 
     const fetchShopLinks = async () => {
         try {
-            setLoading(true);
-            const response = await axios.get<IShopLink[]>(
-              'http://localhost:8080/api/shop-links',
-              {
+            setLoading(true)
+            const response = await axios.get<IShopLink[]>('http://localhost:8080/api/shop-links', {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              }
-            );
-            setShopLinks(response.data);
-            setLoading(false);
-          } catch (err: any) {
-            console.error(err);
-            setError(err);
-            setLoading(false);
-          }
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            setShopLinks(response.data)
+            setLoading(false)
+        } catch (err: any) {
+            console.error(err)
+            setError(err)
+            setLoading(false)
+        }
     }
 
     const fetchShopLink = async (id: string) => {
         try {
-            setLoading(true);
-            const response = await axios.get<IShopLink>(
-              `http://localhost:8080/api/shop-links/${id}`,
-              {
+            setLoading(true)
+            const response = await axios.get<IShopLink>(`http://localhost:8080/api/shop-links/${id}`, {
                 headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              }
-            );
-            setShopLink(response.data);
-            setLoading(false);
-          } catch (err: any) {
-            console.error(err);
-            setError(err);
-            setLoading(false);
-          }
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            setShopLink(response.data)
+            setLoading(false)
+        } catch (err: any) {
+            console.error(err)
+            setError(err)
+            setLoading(false)
+        }
     }
 
     const shopLinkMethods = useForm({
@@ -64,38 +59,32 @@ export default function useShopLink() {
     })
 
     const handleSubmit: SubmitHandler<IShopLink> = async (data) => {
+        // cleaned link before submitting
+        data.shopLink = cleanedLink(data.shopLink)
         try {
-            setLoading(true);
+            setLoading(true)
             if (data.id) {
                 // Update existing ShopLink (PUT request)
-                const response = await axios.put<IShopLink>(
-                    `http://localhost:8080/api/shop-links/${data.id}`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
+                const response = await axios.put<IShopLink>(`http://localhost:8080/api/shop-links/${data.id}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                );
-                setSuccess('Updated successfully');
+                })
+                setSuccess('Updated successfully')
             } else {
                 // Create a new ShopLink (POST request)
-                const response = await axios.post<IShopLink>(
-                    'http://localhost:8080/api/shop-links',
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
+                const response = await axios.post<IShopLink>('http://localhost:8080/api/shop-links', data, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                );
-                setSuccess('Created successfully');
+                })
+                setSuccess('Created successfully')
             }
-            setLoading(false);
+            setLoading(false)
         } catch (err: any) {
-            console.error(err);
-            setError(err);
-            setLoading(false);
+            console.error(err)
+            setError(err)
+            setLoading(false)
         }
     }
 

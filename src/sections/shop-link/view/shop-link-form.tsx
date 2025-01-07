@@ -46,7 +46,7 @@ export default function ShopLinkForm({ methods, onSubmit, loading }: Props) {
 
     useEffect(() => {
         setSelectedEcommerce(getValues('ecommerceSite'))
-    }, [])
+    }, [getValues('ecommerceSite')])
     // console.log(getValues())
 
     return (
