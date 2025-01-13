@@ -4,9 +4,9 @@ export default interface IXPath {
     shopee: string | null
     tiki: string | null
     lazada: string | null
-    specific_shopee: string | null
-    specific_tiki: string | null
-    specific_lazada: string | null
+    specificShopee: string | null
+    specificTiki: string | null
+    specificLazada: string | null
 }
 
 export interface ICrawlField {

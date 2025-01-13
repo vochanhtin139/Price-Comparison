@@ -17,7 +17,7 @@ import { ProductItem } from '../product-item'
 
 import type { FiltersProps } from '../product-filters'
 import { useLocation } from 'react-router-dom'
-import { Card, InputAdornment, OutlinedInputProps, Stack, Toolbar } from '@mui/material'
+import { Autocomplete, Card, InputAdornment, MenuItem, OutlinedInputProps, Select, Stack, Toolbar } from '@mui/material'
 import { SearchProductToolbar } from './search-toolbar'
 import { useTable } from 'src/sections/user/view'
 import { Iconify } from 'src/components/iconify'
@@ -29,11 +29,21 @@ import { TextField } from '@mui/material'
 import dayjs from 'dayjs'
 import { Slider } from '@mui/material'
 import { fCurrency } from 'src/utils/format-number'
+import useCategoryLink from 'src/hooks/category-link'
+import useProductLink from 'src/hooks/product-link'
+import { AutocompleteRenderInputParams } from '@mui/material'
 
 // ----------------------------------------------------------------------
 
 export function SearchProductView() {
     const { loading, error, success, products, fetchProductsByFilters } = useProduct()
+    const { categoryLinks, fetchCategoryLinks } = useCategoryLink()
+    const { productLinks, fetchProductLinks } = useProductLink()
+
+    useEffect(() => {
+        fetchCategoryLinks()
+        fetchProductLinks()
+    }, [])
 
     const location = useLocation()
     const params = new URLSearchParams(location.search)
@@ -43,13 +53,16 @@ export function SearchProductView() {
     const MAX = 40000000
     const MIN = 0
     const [filters, setFilters] = useState({
-        product_link: '',
-        crawl_time: null,
-        from_category: '',
-        product_name: '',
-        product_name_operator: '',
-        product_price_range: [0, 40000000],
-        product_rating: ''
+        column: 'productName',
+        operator: 'contains',
+        value: '',
+        // product_link: '',
+        // crawl_time: null,
+        // from_category: '',
+        // product_name: '',
+        // product_name_operator: '',
+        priceRange: [0, 40000000],
+        productRating: '1'
     })
 
     const handleInputChange = (field: string, value: any) => {
@@ -79,6 +92,35 @@ export function SearchProductView() {
                         gap: 2
                     }}
                 >
+                    {/* <Typography variant='subtitle2' mb={-1}>
+                        Product Name
+                    </Typography>
+                    <Stack spacing={2} direction='row' width={'100%'}>
+                        <TextField
+                            fullWidth
+                            // label='Product Name'
+                            value={filters.product_name}
+                            onChange={(e) => handleInputChange('product_name', e.target.value)}
+                            placeholder='Enter product name'
+                        />
+                        <TextField
+                            select
+                            fullWidth
+                            label='Operator'
+                            value={filters.product_name_operator || null}
+                            onChange={(e) => handleInputChange('product_name_operator', e.target.value)}
+                            SelectProps={{ native: true }}
+                            // sx={{ maxWidth: 300 }}
+                        >
+                            <option value='contains'>contains</option>
+                            <option value='equal'>equal</option>
+                            <option value='start'>start with</option>
+                            <option value='end'>end with</option>
+                        </TextField>
+                    </Stack> */}
+                    <Typography variant='subtitle2' mb={-1}>
+                        Column
+                    </Typography>
                     <Stack spacing={2} direction='row' width={'100%'}>
                         {/* <OutlinedInput
                             fullWidth
@@ -95,7 +137,7 @@ export function SearchProductView() {
                             }
                             sx={{ maxWidth: 200 }}
                         /> */}
-                        <OutlinedInput
+                        {/* <OutlinedInput
                             fullWidth
                             value={filters.product_link}
                             onChange={(e) => handleInputChange('product_link', e.target.value)}
@@ -118,19 +160,98 @@ export function SearchProductView() {
                                 </InputAdornment>
                             }
                             sx={{ maxWidth: 300 }}
+                        /> */}
+                        {/* <Select
+                            fullWidth
+                            // label='Product'
+                            value={filters.product_link || 'default'}
+                            onChange={(e) => handleInputChange('product_link', e.target.value)}
+                        >
+                            <MenuItem value='default'>Product Crawler</MenuItem>
+                            {productLinks.map((productLink) => (
+                                <MenuItem key={productLink.crawlerName} value={productLink.crawlerName}>
+                                    {productLink.crawlerName}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                        <Select
+                            fullWidth
+                            // label='Category'
+                            value={filters.from_category || 'default'}
+                            onChange={(e) => handleInputChange('from_category', e.target.value)}
+                        >
+                            <MenuItem value='default'>Category Crawler</MenuItem>
+                            {categoryLinks.map((categoryLink) => (
+                                <MenuItem key={categoryLink.crawlerName} value={categoryLink.crawlerName}>
+                                    {categoryLink.crawlerName}
+                                </MenuItem>
+                            ))}
+                        </Select> */}
+                        <TextField
+                            select
+                            fullWidth
+                            // label='Column'
+                            value={filters.column || null}
+                            onChange={(e) => handleInputChange('column', e.target.value)}
+                            SelectProps={{ native: true }}
+                            // sx={{ maxWidth: 300 }}
+                        >
+                            <option value='productName'>Product name</option>
+                            <option value='productLink'>Product link</option>
+                            <option value='fromCategory'>Category link</option>
+                        </TextField>
+                        <TextField
+                            select
+                            fullWidth
+                            label='Operator'
+                            value={filters.operator || null}
+                            onChange={(e) => handleInputChange('operator', e.target.value)}
+                            SelectProps={{ native: true }}
+                            // sx={{ maxWidth: 300 }}
+                        >
+                            <option value='contains'>contains</option>
+                            <option value='equals'>equals</option>
+                            <option value='starts'>starts with</option>
+                            {/* <option value='ends'>ends with</option> */}
+                        </TextField>
+                        <TextField
+                            fullWidth
+                            value={filters.value}
+                            label='Value'
+                            onChange={(e) => handleInputChange('value', e.target.value)}
+                            placeholder='Enter value'
                         />
-                        <DatePicker
+                        {/* <Autocomplete
+                            fullWidth
+                            options={productLinks.map((productLink) => productLink.crawlerName)} // Options array
+                            value={filters.product_link || null} // Set value from filters
+                            onChange={(e, newValue) => handleInputChange('product_link', newValue || '')} // Handle changes
+                            renderInput={(params) => (
+                                <TextField {...params} label='Product Crawler' variant='outlined' />
+                            )}
+                        />
+
+                        <Autocomplete
+                            fullWidth
+                            options={categoryLinks.map((categoryLink) => categoryLink.crawlerName)} // Options array
+                            value={filters.from_category || null} // Set value from filters
+                            onChange={(e, newValue) => handleInputChange('from_category', newValue || '')} // Handle changes
+                            renderInput={(params) => (
+                                <TextField {...params} label='Category Crawler' variant='outlined' />
+                            )}
+                        /> */}
+                        {/* <DatePicker
                             sx={{ width: 300 }}
                             label='Crawl Time'
                             value={filters.crawl_time}
                             onChange={(newValue) => handleInputChange('crawl_time', newValue)}
                             // disable future dates
                             maxDate={dayjs()}
-                        />
-                        <OutlinedInput
+                        /> */}
+                        {/* <OutlinedInput
                             fullWidth
-                            value={filters.product_rating}
-                            onChange={(e) => handleInputChange('product_rating', e.target.value)}
+                            value={filters.productRating}
+                            onChange={(e) => handleInputChange('productRating', e.target.value)}
                             placeholder='Enter Product Rating'
                             startAdornment={
                                 <InputAdornment position='start'>
@@ -138,7 +259,7 @@ export function SearchProductView() {
                                 </InputAdornment>
                             }
                             sx={{ maxWidth: 300 }}
-                        />
+                        /> */}
                         {/* <Button
                             variant='contained'
                             color='inherit'
@@ -164,8 +285,8 @@ export function SearchProductView() {
                         />
                         <OutlinedInput
                             fullWidth
-                            value={filters.product_rating}
-                            onChange={(e) => handleInputChange('product_rating', e.target.value)}
+                            value={filters.productRating}
+                            onChange={(e) => handleInputChange('productRating', e.target.value)}
                             placeholder='Enter Product Rating'
                             startAdornment={
                                 <InputAdornment position='start'>
@@ -175,61 +296,48 @@ export function SearchProductView() {
                             sx={{ maxWidth: 300 }}
                         />
                     </Stack> */}
-                    <Typography variant='subtitle2' mb={-1}>
-                        Product Name
-                    </Typography>
-                    <Stack spacing={2} direction='row' width={'100%'}>
-                        <OutlinedInput
-                            fullWidth
-                            value={filters.product_name}
-                            onChange={(e) => handleInputChange('product_name', e.target.value)}
-                            placeholder='Enter Product Name'
-                            startAdornment={
-                                <InputAdornment position='start'>
-                                    <Iconify width={20} icon='eva:pricetags-fill' sx={{ color: 'text.disabled' }} />
-                                </InputAdornment>
-                            }
-                            sx={{ maxWidth: 300 }}
-                        />
-                        <TextField
-                            select
-                            fullWidth
-                            label='Operator'
-                            value={filters.product_name_operator || null}
-                            onChange={(e) => handleInputChange('product_name_operator', e.target.value)}
-                            SelectProps={{ native: true }}
-                            sx={{ maxWidth: 300 }}
-                        >
-                            <option value='contains'>contains</option>
-                            <option value='equal'>equal</option>
-                            <option value='start'>start with</option>
-                            <option value='end'>end with</option>
-                        </TextField>
-                    </Stack>
-                    <Stack spacing={2} direction='row' width={'450px'}>
+                    <Stack spacing={2} direction='row' width={'100%'} mt={1}>
+                        <Box width={'100%'}>
+                            <Typography variant='subtitle2' mb={1}>
+                                Product Rating
+                            </Typography>
+                            <Select
+                                fullWidth
+                                value={filters.productRating || ''}
+                                onChange={(e) => handleInputChange('productRating', e.target.value)}
+                            >
+                                <MenuItem value='5'>5 stars</MenuItem>
+                                <MenuItem value='4'>4 stars or more</MenuItem>
+                                <MenuItem value='3'>3 stars or more</MenuItem>
+                                <MenuItem value='2'>2 stars or more</MenuItem>
+                                <MenuItem value='1'>1 star or more</MenuItem>
+                            </Select>
+                        </Box>
                         <Box width={'100%'}>
                             <Typography variant='subtitle2' gutterBottom>
                                 Price Range
                             </Typography>
-                            <Slider
-                                value={filters.product_price_range}
-                                onChange={(e, newValue) => handleInputChange('product_price_range', newValue)}
-                                valueLabelDisplay='auto'
-                                min={MIN}
-                                max={MAX}
-                                step={100000}
-                            />
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <Box sx={{ width: '100%' }} px={3}>
+                                <Slider
+                                    value={filters.priceRange}
+                                    onChange={(e, newValue) => handleInputChange('priceRange', newValue)}
+                                    valueLabelDisplay='auto'
+                                    min={MIN}
+                                    max={MAX}
+                                    step={50000}
+                                />
+                            </Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between' }} px={2}>
                                 <Typography
                                     variant='body2'
-                                    onClick={() => handleInputChange('product_price_range', [0, 10000000])}
+                                    onClick={() => handleInputChange('priceRange', [0, 10000000])}
                                     sx={{ cursor: 'pointer' }}
                                 >
                                     {fCurrency(MIN)}
                                 </Typography>
                                 <Typography
                                     variant='body2'
-                                    onClick={() => handleInputChange('product_price_range', [40000000, 40000000])}
+                                    onClick={() => handleInputChange('priceRange', [40000000, 40000000])}
                                     sx={{ cursor: 'pointer' }}
                                 >
                                     {fCurrency(MAX)}
@@ -237,20 +345,23 @@ export function SearchProductView() {
                             </Box>
                         </Box>
                     </Stack>
-                    <Stack spacing={2} direction='row' width={'100%'} justifyContent='flex-end'>
+                    <Stack spacing={2} direction='row' width={'100%'} justifyContent='flex-end' mt={2}>
                         <Button
                             variant='outlined'
                             // color='inherit'
                             size='large'
                             onClick={() => {
                                 setFilters({
-                                    product_link: '',
-                                    crawl_time: null,
-                                    from_category: '',
-                                    product_name: '',
-                                    product_name_operator: '',
-                                    product_price_range: [0, 40000000],
-                                    product_rating: ''
+                                    column: 'product_name',
+                                    operator: 'contains',
+                                    value: '',
+                                    // product_link: '',
+                                    // crawl_time: null,
+                                    // from_category: '',
+                                    // product_name: '',
+                                    // product_name_operator: '',
+                                    priceRange: [0, 40000000],
+                                    productRating: ''
                                 })
                             }}
                         >

@@ -251,68 +251,69 @@ export default function useProduct() {
         }
     }
 
-    const findAllTables = async (param: string, value: string) => {
+    const findAllTables = async (
+        column: string,
+        value: string,
+        operator: string,
+        productRating: string,
+        priceRange: [number, number]
+    ) => {
         try {
-            let response
-            const cateProducts = []
-            response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-specific-tiki-product?${param}=${value}`, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${accessToken}`
-                }
+            const headers = {
+                'Access-Control-Allow-Origin': '*',
+                Authorization: `Bearer ${accessToken}`,
+                'Content-Type': 'application/json'
+            }
+
+            const body = JSON.stringify({ column, operator, value, productRating, priceRange })
+
+            // let response
+            const cateProducts: IProduct[] = []
+            // const response = await axios.post<IProduct[]>(`${API_BASE_URL}/all-specific-tiki-product`, body, {
+            //     headers
+            // })
+            const response = await axios.post<IProduct[]>(`${API_BASE_URL}/all-specific-tiki-product`, body, {
+                headers
             })
+            console.log('response.data', response.data)
             cateProducts.push(...response.data)
 
-            response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-specific-lazada-product?${param}=${value}`, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            cateProducts.push(...response.data)
+            // response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-specific-lazada-product`, body, {
+            //     headers
+            // })
+            // cateProducts.push(...response.data)
 
-            response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-specific-shopee-product?${param}=${value}`, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            cateProducts.push(...response.data)
+            // response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-specific-shopee-product`, body, {
+            //     headers
+            // })
+            // cateProducts.push(...response.data)
 
-            cateProducts.forEach((product) => {
-                product.type = 'categoryLink'
-            })
+            // cateProducts.forEach((product) => {
+            //     product.type = 'categoryLink'
+            // })
 
-            const shopProducts = []
-            response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-tiki-product?${param}=${value}`, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            shopProducts.push(...response.data)
+            // const shopProducts = []
+            // response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-tiki-product`, body, {
+            //     headers
+            // })
+            // shopProducts.push(...response.data)
 
-            response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-lazada-product?${param}=${value}`, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            shopProducts.push(...response.data)
+            // response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-lazada-product`, body, {
+            //     headers
+            // })
+            // shopProducts.push(...response.data)
 
-            response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-shopee-product?${param}=${value}`, {
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })
-            shopProducts.push(...response.data)
+            // response = await axios.get<IProduct[]>(`${API_BASE_URL}/all-shopee-product`, body, {
+            //     headers
+            // })
+            // shopProducts.push(...response.data)
 
-            shopProducts.forEach((product) => {
-                product.type = 'shopLink'
-            })
+            // shopProducts.forEach((product) => {
+            //     product.type = 'shopLink'
+            // })
 
-            const allProducts = [...cateProducts, ...shopProducts]
+            // const allProducts = [...cateProducts, ...shopProducts]
+            const allProducts = [...cateProducts]
             return allProducts
         } catch (err: any) {
             console.error(err)
@@ -324,8 +325,21 @@ export default function useProduct() {
             setLoading(true)
             // const allProducts = await findAllTables('filters', filters)
             const allProducts = []
-            if (filters.product_name) {
-                const items = await findAllTables('keyword', filters.product_name)
+            // if (filters.product_name) {
+            //     const items = await findAllTables('keyword', filters.product_name)
+            //     if (items) {
+            //         allProducts.push(...items)
+            //     }
+            // }
+
+            if (filters.column && filters.value && filters.operator) {
+                const items = await findAllTables(
+                    filters.column,
+                    filters.value,
+                    filters.operator,
+                    filters.productRating,
+                    filters.priceRange
+                )
                 if (items) {
                     allProducts.push(...items)
                 }

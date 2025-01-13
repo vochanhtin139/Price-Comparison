@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 import axios from 'axios'
 import IXPath, { ICrawlField } from './config.interface'
 import { crawlFieldSchema, xPathSchema } from './domain'
+import { enqueueSnackbar } from 'notistack'
 
 export default function useConfig() {
     const [loading, setLoading] = useState<boolean>(false)
@@ -64,9 +65,11 @@ export default function useConfig() {
             shopee: '',
             tiki: '',
             lazada: '',
-            specific_shopee: '',
-            specific_tiki: '',
-            specific_lazada: ''
+            specificShopee: '',
+            specificTiki: '',
+            specificLazada: '',
+            value: '',
+            page: ''
         }
     })
 
@@ -79,6 +82,7 @@ export default function useConfig() {
     })
 
     const handleSubmitXPath: SubmitHandler<IXPath> = async (data) => {
+        console.log(data)
         try {
             setLoading(true)
             if (data.id) {
@@ -89,6 +93,7 @@ export default function useConfig() {
                     }
                 })
                 setSuccess('Updated successfully')
+                enqueueSnackbar('Updated successfully', { variant: 'success' })
             } else {
                 // Create a new XPath (POST request)
                 const response = await axios.post<IXPath>('http://localhost:8080/api/xpath', data, {
@@ -97,11 +102,15 @@ export default function useConfig() {
                     }
                 })
                 setSuccess('Created successfully')
+                enqueueSnackbar('Created successfully', { variant: 'success' })
+                setLoading(false)
+                return response.data.id
             }
             setLoading(false)
         } catch (err: any) {
             console.error(err)
             setError(err)
+            enqueueSnackbar(err, { variant: 'error' })
             setLoading(false)
         }
     }
@@ -119,6 +128,7 @@ export default function useConfig() {
                     }
                 })
                 setSuccess2('Updated successfully')
+                enqueueSnackbar('Updated successfully', { variant: 'success' })
             } else {
                 // Create a new CrawlField (POST request)
                 const response = await axios.post<ICrawlField>(url, data, {
@@ -126,12 +136,17 @@ export default function useConfig() {
                         Authorization: `Bearer ${accessToken}`
                     }
                 })
+                console.log(response)
                 setSuccess2('Created successfully')
+                enqueueSnackbar('Created successfully', { variant: 'success' })
+                setLoading2(false)
+                return response
             }
             setLoading2(false)
         } catch (err: any) {
             console.error(err)
             setError2(err)
+            enqueueSnackbar(err, { variant: 'error' })
             setLoading2(false)
         }
     }
@@ -145,10 +160,12 @@ export default function useConfig() {
                 }
             })
             setSuccess('Deleted successfully')
+            enqueueSnackbar('Deleted successfully', { variant: 'success' })
             setLoading(false)
         } catch (err: any) {
             console.error(err)
             setError(err)
+            enqueueSnackbar(err, { variant: 'error' })
             setLoading(false)
         }
     }
@@ -164,10 +181,12 @@ export default function useConfig() {
                 }
             })
             setSuccess2('Deleted successfully')
+            enqueueSnackbar('Deleted successfully', { variant: 'success' })
             setLoading2(false)
         } catch (err: any) {
             console.error(err)
             setError2(err)
+            enqueueSnackbar(err, { variant: 'error' })
             setLoading2(false)
         }
     }

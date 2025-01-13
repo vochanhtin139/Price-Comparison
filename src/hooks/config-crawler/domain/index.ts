@@ -6,9 +6,11 @@ export const xPathSchema = yup.object({
     shopee: yup.string().nullable(),
     tiki: yup.string().nullable(),
     lazada: yup.string().nullable(),
-    specific_shopee: yup.string().nullable(),
-    specific_tiki: yup.string().nullable(),
-    specific_lazada: yup.string().nullable()
+    specificShopee: yup.string().nullable(),
+    specificTiki: yup.string().nullable(),
+    specificLazada: yup.string().nullable(),
+    page: yup.string(),
+    value: yup.string()
 })
 
 export const crawlFieldSchema = yup.object({

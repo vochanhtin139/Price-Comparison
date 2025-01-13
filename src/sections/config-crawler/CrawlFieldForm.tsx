@@ -30,6 +30,7 @@ type Props = {
     success?: string
     productFields?: ICrawlField[]
     specificProductFields?: ICrawlField[]
+    onDelete: (id: string, type: string) => Promise<void>
 }
 
 export function CrawlFieldForm({
@@ -39,21 +40,22 @@ export function CrawlFieldForm({
     error,
     success,
     productFields,
-    specificProductFields
+    specificProductFields,
+    onDelete
 }: Props) {
     const { handleSubmit, control, getValues, setValue } = methods
 
-    useEffect(() => {
-        if (error) {
-            enqueueSnackbar(error.code, { variant: 'error' })
-        }
-    }, [error])
+    // useEffect(() => {
+    //     if (error) {
+    //         enqueueSnackbar(error.code, { variant: 'error' })
+    //     }
+    // }, [error])
 
-    useEffect(() => {
-        if (success) {
-            enqueueSnackbar(success, { variant: 'success' })
-        }
-    }, [success])
+    // useEffect(() => {
+    //     if (success) {
+    //         enqueueSnackbar(success, { variant: 'success' })
+    //     }
+    // }, [success])
 
     const isMobile = useMediaQuery('(max-width:600px)')
     // const productFields = ['product_link', 'product_name', 'product_price', 'product_image_link']
@@ -66,9 +68,27 @@ export function CrawlFieldForm({
     // ]
     const [selectedType, setSelectedType] = useState('product_field')
 
+    const handleAddField = async (data: any) => {
+        const response = (await onSubmit(data)) as any
+        if (response.status !== 400) {
+            data.id = response.data.id
+            if (data.type === 'product_field') {
+                if (productFields) {
+                    productFields.push(data)
+                }
+            } else {
+                if (specificProductFields) {
+                    specificProductFields.push(data)
+                }
+            }
+        }
+        methods.reset()
+    }
+
     return (
         <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+            <form onSubmit={handleSubmit(handleAddField)}>
                 <Stack gap={2}>
                     <Stack spacing={2} sx={{ display: 'flex', alignItems: 'top', flexDirection: 'column' }}>
                         <Typography sx={{ fontSize: '14px', fontWeight: 'bold' }}>Product Field</Typography>
@@ -93,11 +113,16 @@ export function CrawlFieldForm({
                                 </Grid>
                                 <IconButton
                                     color='error'
-                                    onClick={() => {
-                                        const updatedFields = productFields.filter(
-                                            (item) => !(item.field === field.field)
-                                        )
+                                    onClick={async () => {
+                                        // const updatedFields = productFields.filter(
+                                        //     (item) => !(item.field === field.field)
+                                        // )
                                         // setValue('productFields', updatedFields)
+                                        await onDelete(field.id, 'product_field')
+                                        productFields.splice(
+                                            productFields.findIndex((item) => item.id === field.id),
+                                            1
+                                        )
                                     }}
                                 >
                                     <Delete fontSize='small' />
@@ -128,9 +153,14 @@ export function CrawlFieldForm({
                                 </Grid>
                                 <IconButton
                                     color='error'
-                                    onClick={() => {
-                                        const updatedFields = specificProductFields.filter(
-                                            (item) => !(item.field === field.field)
+                                    onClick={async () => {
+                                        // const updatedFields = specificProductFields.filter(
+                                        //     (item) => !(item.field === field.field)
+                                        // )
+                                        await onDelete(field.id, 'specific_product_field')
+                                        specificProductFields.splice(
+                                            specificProductFields.findIndex((item) => item.id === field.id),
+                                            1
                                         )
                                         // setValue('specificProductFields', updatedFields)
                                     }}
@@ -170,7 +200,7 @@ export function CrawlFieldForm({
                         </FormControl>
                         <FormControl
                             sx={{
-                                width: { xs: '200', sm: '218px' },
+                                width: { xs: '200px', sm: '218px' },
                                 ml: [1, 2],
                                 '& .MuiOutlinedInput-root': {
                                     // borderRadius: 3,
