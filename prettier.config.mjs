@@ -4,12 +4,15 @@
  * Open the command palette (Ctrl + Shift + P) and execute the command > Reload Window.
  */
 const config = {
-  semi: true,
-  tabWidth: 2,
-  endOfLine: 'lf',
-  printWidth: 100,
+  arrowParens: 'always',
+  semi: false,
+  trailingComma: 'none',
+  tabWidth: 4,
+  endOfLine: 'auto',
+  useTabs: false,
   singleQuote: true,
-  trailingComma: 'es5',
+  printWidth: 120,
+  jsxSingleQuote: true
 };
 
 export default config;

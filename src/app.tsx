@@ -1,23 +1,31 @@
-import 'src/global.css';
+import 'src/global.css'
 
-import Fab from '@mui/material/Fab';
+import { SnackbarProvider } from 'notistack'
 
-import { Router } from 'src/routes/sections';
+import Fab from '@mui/material/Fab'
 
-import { useScrollToTop } from 'src/hooks/use-shop';
+import { Router } from 'src/routes/sections'
 
-import { ThemeProvider } from 'src/theme/theme-provider';
+import { useScrollToTop } from 'src/hooks/use-scroll-to-top'
 
-import { Iconify } from 'src/components/iconify';
+import { ThemeProvider } from 'src/theme/theme-provider'
+
+import { Iconify } from 'src/components/iconify'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 // ----------------------------------------------------------------------
 
 export default function App() {
-  useScrollToTop();
+    useScrollToTop()
 
-  return (
-    <ThemeProvider>
-      <Router />
-    </ThemeProvider>
-  );
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <ThemeProvider>
+                <SnackbarProvider>
+                    <Router />
+                </SnackbarProvider>
+            </ThemeProvider>
+        </LocalizationProvider>
+    )
 }

@@ -17,3 +17,7 @@ export type ColorPreviewProps = {
   limit?: number;
   colors: ColorPickerProps['colors'];
 };
+
+export type RatingViewProps = {
+  rating?: string;
+}

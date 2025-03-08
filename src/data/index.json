@@ -1,0 +1,127 @@
+{
+    "general": {
+        "appName": "Price Comparing Tool",
+        "appImage": "/logo/logo.png",
+        "appLink": "/"
+    },
+    "pages": {
+        "login": {
+            "title": "Login",
+            "image": ""
+        },
+        "manageStudent": {
+            "title": "Students",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "manageResult": {
+            "title": "Results",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "manageCourse": {
+            "title": "Courses",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "manageAssessment": {
+            "title": "Assessments",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                }
+            ]
+        },
+        "newShopLink": {
+            "title": "New shop crawler",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/shop-links",
+                    "label": "Shop Crawler"
+                }
+            ]
+        },
+        "newCategoryLink": {
+            "title": "New category crawler",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/category-links",
+                    "label": "Category Crawler"
+                }
+            ]
+        },
+        "newProductLink": {
+            "title": "New product crawler",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/product-links",
+                    "label": "Product Crawler"
+                }
+            ]
+        },
+        "user": {
+            "title": "New user",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/users",
+                    "label": "Users"
+                }
+            ]
+        },
+        "course": {
+            "title": "New course",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/courses",
+                    "label": "Courses"
+                }
+            ]
+        },
+        "assessment": {
+            "title": "New assessment",
+            "breadcrumb": [
+                {
+                    "href": "/",
+                    "label": "Home"
+                },
+                {
+                    "href": "/assessments",
+                    "label": "Assessments"
+                }
+            ]
+        }
+    }
+}

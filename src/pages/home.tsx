@@ -11,7 +11,7 @@ export default function Page() {
     <>
       <Helmet>
         <title> {`Dashboard - ${CONFIG.appName}`}</title>
-        <meta name="description" content="CCA Assessment" />
+        <meta name="description" content="Price Comparing Tool" />
         <meta name="keywords" content="react,material" />
       </Helmet>
 
