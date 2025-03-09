@@ -15,8 +15,11 @@ FROM nginx:stable-alpine
 # Copy the build output from the builder stage to Nginx's html directory
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose port 80
-EXPOSE 80
+# Copy the custom Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 81
+EXPOSE 81
 
 # Start Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
