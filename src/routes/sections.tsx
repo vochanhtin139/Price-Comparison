@@ -65,7 +65,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
             }
 
             try {
-                const response = await fetch('http://localhost:8080/api/auth/verify-token', {
+                const response = await fetch('https://price-comparison.site/api/auth/verify-token', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export function Router() {
                 { path: 'product-link/:id', element: <ProductLinkCreate /> },
                 { path: 'product-link/new', element: <ProductLinkCreate /> },
                 { path: 'search-product', element: <SearchProductPage /> },
-                { path: 'configurations', element: <ConfigurationPage /> },
+                { path: 'configurations', element: <ConfigurationPage /> }
             ]
         },
         {

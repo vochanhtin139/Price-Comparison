@@ -1,4 +1,4 @@
-import { cleanedLink } from './../../utils/format-url';
+import { cleanedLink } from './../../utils/format-url'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -18,7 +18,7 @@ export default function useShopLink() {
     const fetchShopLinks = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<IShopLink[]>('http://localhost:8080/api/shop-links', {
+            const response = await axios.get<IShopLink[]>('https://price-comparison.site/api/shop-links', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -35,7 +35,7 @@ export default function useShopLink() {
     const fetchShopLink = async (id: string) => {
         try {
             setLoading(true)
-            const response = await axios.get<IShopLink>(`http://localhost:8080/api/shop-links/${id}`, {
+            const response = await axios.get<IShopLink>(`https://price-comparison.site/api/shop-links/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -65,15 +65,19 @@ export default function useShopLink() {
             setLoading(true)
             if (data.id) {
                 // Update existing ShopLink (PUT request)
-                const response = await axios.put<IShopLink>(`http://localhost:8080/api/shop-links/${data.id}`, data, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
+                const response = await axios.put<IShopLink>(
+                    `https://price-comparison.site/api/shop-links/${data.id}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
                     }
-                })
+                )
                 setSuccess('Updated successfully')
             } else {
                 // Create a new ShopLink (POST request)
-                const response = await axios.post<IShopLink>('http://localhost:8080/api/shop-links', data, {
+                const response = await axios.post<IShopLink>('https://price-comparison.site/api/shop-links', data, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
