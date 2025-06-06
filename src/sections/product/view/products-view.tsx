@@ -151,15 +151,28 @@ export function ProductsView() {
             </Box>
 
             <Grid container spacing={3}>
-                {products.map((product) => (
-                    <Grid key={product.productName} xs={12} sm={6} md={3}>
-                        <ProductItem
-                            product={product}
-                            ecommerceSite={ecommerceSite}
-                            type={shopLink ? 'shopLink' : 'categoryLink'}
-                        />
+                {loading || products.length > 0 ? (
+                    products.map((product) => (
+                        <Grid key={product.productName} xs={12} sm={6} md={3}>
+                            <ProductItem
+                                product={product}
+                                ecommerceSite={ecommerceSite}
+                                type={shopLink ? 'shopLink' : 'categoryLink'}
+                            />
+                        </Grid>
+                    ))
+                ) : (
+                    <Grid xs={12}>
+                        <Box sx={{ textAlign: 'center', px: 5 }}>
+                            <Typography variant='h6' sx={{ mb: 2 }}>
+                                No products found
+                            </Typography>
+                            <Typography variant='body2' color='text.secondary'>
+                                Please try a different category/shop.
+                            </Typography>
+                        </Box>
                     </Grid>
-                ))}
+                )}
             </Grid>
 
             {/* <Pagination count={10} color='primary' sx={{ mt: 8, mx: 'auto' }} /> */}

@@ -9,12 +9,28 @@ export const cleanedLink = (url: string): string => {
     }
 }
 
-export const convertStringToArray = (str: string): string[] => {
-    if (!str || str === 'Image not available') {
-        // return []
+// export const convertStringToArray = (str: string): string[] => {
+//     if (!str || str === 'Image not available') {
+//         // return []
+//         return ['/assets/images/product/image_not_available.jpg']
+//     }
+//     if (!str.startsWith('[') && !str.endsWith(']')) return [str]
+//     return str
+//         .replace(/[\\[\]']+/g, '')
+//         .split(',')
+//         .map((item) => item.trim())
+// }
+
+export const convertStringToArray = (str: any): string[] => {
+    if (Array.isArray(str)) return str
+
+    if (typeof str !== 'string' || str === 'Image not available') {
         return ['/assets/images/product/image_not_available.jpg']
     }
+
+    // If it's a plain string without brackets
     if (!str.startsWith('[') && !str.endsWith(']')) return [str]
+
     return str
         .replace(/[\\[\]']+/g, '')
         .split(',')

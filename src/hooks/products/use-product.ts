@@ -362,6 +362,51 @@ export default function useProduct() {
     //   }
     // }
 
+    const fetchProductOptions = async (productLink: string): Promise<string[][] | null> => {
+        try {
+            const response = await axios.post<string[][]>(
+                `${API_BASE_URL}/get-products-options`,
+                { productLink },
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            return response.data
+        } catch (err: any) {
+            console.error('Failed to fetch product options:', err)
+            setError(err.message || 'Failed to fetch product options')
+            return null
+        }
+    }
+
+    const fetchHistoricalData = async (productLink: string, choices?: string[]): Promise<string[][] | null> => {
+        try {
+            console.log('productLink', productLink)
+            console.log('choices', choices)
+            const response = await axios.post<string[][]>(
+                `${API_BASE_URL}/get-historical-data`,
+                // { productLink },
+                choices?.length ? { productLink, choices } : { productLink },
+                {
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        Authorization: `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
+            )
+            return response.data
+        } catch (err: any) {
+            console.error('Failed to fetch historical data:', err)
+            setError(err.message || 'Failed to fetch historical data')
+            return null
+        }
+    }
+
     return {
         loading,
         error,
@@ -378,7 +423,9 @@ export default function useProduct() {
         fetchShopeeProductsByName,
         shopeeProduct,
         fetchShopeeProductById,
-        fetchShopeeProductByName
+        fetchShopeeProductByName,
+        fetchProductOptions,
+        fetchHistoricalData,
         // handleCreateShopeeProduct
     }
 }

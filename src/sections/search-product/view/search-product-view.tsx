@@ -387,7 +387,8 @@ export function SearchProductView() {
             <Grid container spacing={3} mt={4}>
                 {products.map((product) => (
                     <Grid key={product.productName} xs={12} sm={6} md={3}>
-                        <ProductItem product={product} ecommerceSite={product.ecommerceSite} type={product.type} />
+                        {/* <ProductItem product={product} ecommerceSite={product.ecommerceSite} type={product.type} /> */}
+                        <ProductItem product={product} ecommerceSite={'tiki'} type={'categoryLink'} />
                     </Grid>
                 ))}
             </Grid>
