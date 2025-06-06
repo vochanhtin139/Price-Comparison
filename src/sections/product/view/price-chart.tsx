@@ -49,7 +49,7 @@ export function PriceChart({ data, historicalData }: PriceChartProps) {
         historicalData?.prices
             .slice(-10) // chỉ lấy 10 phần tử cuối
             .map((price, index, arr) => ({
-                date: historicalData.dates[historicalData.dates.length - arr.length + index],
+                date: historicalData.dates[historicalData.dates.length - arr.length - 5 + index],
                 price: price,
                 isPredicted: false
             })) || []

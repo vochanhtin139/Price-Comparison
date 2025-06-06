@@ -32,11 +32,12 @@ import { fCurrency } from 'src/utils/format-number'
 import useCategoryLink from 'src/hooks/category-link'
 import useProductLink from 'src/hooks/product-link'
 import { AutocompleteRenderInputParams } from '@mui/material'
+import IProduct from 'src/hooks/products/product.interface'
 
 // ----------------------------------------------------------------------
 
 export function SearchProductView() {
-    const { loading, error, success, products, fetchProductsByFilters } = useProduct()
+    const { loading, error, success, products, fetchProductsByFilters, fetchSearchProductResult } = useProduct()
     const { categoryLinks, fetchCategoryLinks } = useCategoryLink()
     const { productLinks, fetchProductLinks } = useProductLink()
 
@@ -69,7 +70,29 @@ export function SearchProductView() {
         setFilters((prevFilters) => ({ ...prevFilters, [field]: value }))
     }
 
-    console.log(products)
+    const handleSearchProduct = useCallback(
+        (filters: any) => {
+            // fetchSearchProductResult() name
+            fetchSearchProductResult(filters.value)
+        },
+        [fetchSearchProductResult]
+    )
+
+    const [finalProducts, setFinalProducts] = useState<IProduct[]>()
+    useEffect(() => {
+        let finalResults = products
+        if (filters.priceRange) {
+            const [minPrice, maxPrice] = filters.priceRange
+            finalResults = finalResults.filter(
+                (product) => Number(product.productPrice) >= minPrice && Number(product.productPrice) <= maxPrice
+            )
+        }
+        if (filters.productRating) {
+            const rating = parseInt(filters.productRating, 10)
+            finalResults = finalResults.filter((product) => Number(product.productRating) >= rating)
+        }
+        setFinalProducts(finalResults)
+    }, [products, filters])
 
     return (
         <DashboardContent>
@@ -197,8 +220,8 @@ export function SearchProductView() {
                             // sx={{ maxWidth: 300 }}
                         >
                             <option value='productName'>Product name</option>
-                            <option value='productLink'>Product link</option>
-                            <option value='fromCategory'>Category link</option>
+                            {/* <option value='productLink'>Product link</option>
+                            <option value='fromCategory'>Category link</option> */}
                         </TextField>
                         <TextField
                             select
@@ -210,8 +233,8 @@ export function SearchProductView() {
                             // sx={{ maxWidth: 300 }}
                         >
                             <option value='contains'>contains</option>
-                            <option value='equals'>equals</option>
-                            <option value='starts'>starts with</option>
+                            {/* <option value='equals'>equals</option>
+                            <option value='starts'>starts with</option> */}
                             {/* <option value='ends'>ends with</option> */}
                         </TextField>
                         <TextField
@@ -375,7 +398,8 @@ export function SearchProductView() {
                             type='submit'
                             onClick={() => {
                                 console.log(filters)
-                                fetchProductsByFilters(filters)
+                                // fetchProductsByFilters(filters)
+                                handleSearchProduct(filters)
                             }}
                         >
                             Search now
@@ -385,7 +409,7 @@ export function SearchProductView() {
             </Card>
 
             <Grid container spacing={3} mt={4}>
-                {products.map((product) => (
+                {finalProducts?.map((product) => (
                     <Grid key={product.productName} xs={12} sm={6} md={3}>
                         {/* <ProductItem product={product} ecommerceSite={product.ecommerceSite} type={product.type} /> */}
                         <ProductItem product={product} ecommerceSite={'tiki'} type={'categoryLink'} />

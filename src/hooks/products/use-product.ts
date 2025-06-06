@@ -407,6 +407,33 @@ export default function useProduct() {
         }
     }
 
+    const fetchSearchProductResult = async (name: string) => {
+        try {
+            console.log('fetchSearchProductResult', name)
+            setLoading(true)
+            const response = await axios.get(`${API_BASE_URL}/search-product`, {
+                params: { name },
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            console.log('search product result', response.data)
+            const allProducts = [
+                ...response.data.relatedProductsLazada,
+                ...response.data.relatedProductsShopee,
+                ...response.data.relatedProductsTiki
+            ]
+            setProducts(allProducts)
+            setLoading(false)
+        } catch (error) {
+            console.error('Error fetching product detail:', error)
+            setError('Failed to fetch product detail')
+            setLoading(false)
+        }
+    }
+
     return {
         loading,
         error,
@@ -426,6 +453,7 @@ export default function useProduct() {
         fetchShopeeProductByName,
         fetchProductOptions,
         fetchHistoricalData,
+        fetchSearchProductResult
         // handleCreateShopeeProduct
     }
 }

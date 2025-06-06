@@ -96,11 +96,8 @@ export function ProductDetailPage() {
     useEffect(() => {
         const fetchData = async () => {
             if (product?.productLink) {
-                const isAllEmpty = Object.values(selectedOptions).every((value) => value === '')
-                let selectedOptionsValue = Object.values(selectedOptions)
-                if (isAllEmpty) {
-                    selectedOptionsValue = []
-                }
+                const selectedOptionsValue = Object.values(selectedOptions).filter((value) => value !== '')
+                console.log('Selected Options Value:', selectedOptionsValue)
                 const data = await fetchHistoricalData(product?.productLink, selectedOptionsValue)
                 // const data = await fetchHistoricalData(product?.productLink)
                 setHistoricalData(data)
