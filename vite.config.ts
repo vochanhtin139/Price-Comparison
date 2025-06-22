@@ -7,7 +7,7 @@ const PORT = 3039;
 
 export default defineConfig({
   base: '/admin/', // Base URL for the application
-  publicDir: '/admin/', // Static assets directory (accessible at both / and /admin)
+  publicDir: 'admin', // Static assets directory (accessible at both / and /admin)
   plugins: [
     react(),
     checker({
