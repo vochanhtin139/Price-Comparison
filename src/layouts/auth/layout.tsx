@@ -82,7 +82,7 @@ export function AuthLayout({ sx, children, header }: AuthLayoutProps) {
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
-          backgroundImage: `url(/assets/background/overlay.jpg)`,
+          backgroundImage: `url(/admin/assets/background/overlay.jpg)`,
           [stylesMode.dark]: { opacity: 0.08 },
         },
         ...sx,

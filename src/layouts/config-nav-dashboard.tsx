@@ -3,7 +3,7 @@ import { SvgColor } from 'src/components/svg-color'
 
 // ----------------------------------------------------------------------
 
-const icon = (name: string) => <SvgColor width='100%' height='100%' src={`/assets/icons/navbar/${name}.svg`} />
+const icon = (name: string) => <SvgColor width='100%' height='100%' src={`/admin/assets/icons/navbar/${name}.svg`} />
 
 export const navData = [
     {

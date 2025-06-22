@@ -12,7 +12,7 @@ export const cleanedLink = (url: string): string => {
 export const convertStringToArray = (str: string): string[] => {
     if (!str || str === 'Image not available') {
         // return []
-        return ['/assets/images/product/image_not_available.jpg']
+        return ['/admin/assets/images/product/image_not_available.jpg']
     }
     if (!str.startsWith('[') && !str.endsWith(']')) return [str]
     return str

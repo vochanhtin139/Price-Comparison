@@ -149,7 +149,7 @@ export function PostItem({
     <SvgColor
       width={88}
       height={36}
-      src="/assets/icons/shape-avatar.svg"
+      src="/admin/assets/icons/shape-avatar.svg"
       sx={{
         left: 0,
         zIndex: 9,
