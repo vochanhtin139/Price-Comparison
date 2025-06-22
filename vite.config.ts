@@ -3,12 +3,11 @@ import checker from 'vite-plugin-checker';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 
-// ----------------------------------------------------------------------
-
 const PORT = 3039;
 
 export default defineConfig({
-  base: '/admin/',
+  base: '/admin/', // Base URL for the application
+  publicDir: 'public', // Static assets directory (accessible at both / and /admin)
   plugins: [
     react(),
     checker({
@@ -35,9 +34,32 @@ export default defineConfig({
       },
     ],
   },
-  server: { port: PORT, host: true },
-  preview: { port: PORT, host: true },
+  server: {
+    port: PORT,
+    host: true,
+    // Ensure the dev server respects the /admin base path
+    origin: `http://localhost:${PORT}/admin`,
+  },
+  preview: {
+    port: PORT,
+    host: true,
+  },
   build: {
-    assetsDir: '',
-  }
+    assetsDir: '', // Output assets directly to dist/
+    rollupOptions: {
+      output: {
+        // Hashed filenames for cache busting
+        assetFileNames: '[name].[hash][extname]',
+        entryFileNames: '[name].[hash].js',
+        // Preserve directory structure for public files
+        chunkFileNames: 'chunks/[name].[hash].js',
+      },
+    },
+    // Ensure publicDir files are copied exactly
+    copyPublicDir: true,
+  },
+  // Custom middleware for development (optional)
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
+  },
 });
