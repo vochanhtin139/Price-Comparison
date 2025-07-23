@@ -1,43 +1,219 @@
 describe('Price Comparison App - Example Test', () => {
-    it('should load the application and verify basic functionality', async () => {
-        // Navigate to the home page
-        await browser.url('/')
+    it('login', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
 
-        // Wait for the page to load completely
-        await browser.waitUntil(async () => (await browser.execute(() => document.readyState)) === 'complete', {
-            timeout: 10000,
-            timeoutMsg: 'Page did not load within 10 seconds'
-        })
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
 
-        // Verify the page title is not empty
-        const pageTitle = await browser.getTitle()
-        expect(pageTitle).not.toBe('')
-        console.log(`✓ Page title: "${pageTitle}"`)
+        // Wait for 10 seconds
+        await browser.pause(10000)
 
-        // Verify the main React app container is present and visible
-        const appContainer = await $('#root')
-        expect(await appContainer.isExisting()).toBe(true)
-        expect(await appContainer.isDisplayed()).toBe(true)
-        console.log('✓ React app container is visible')
+        // Find the username input field using XPath and enter email
+        const usernameInput = await $('//input[@name="username"]')
+        await usernameInput.waitForDisplayed({ timeout: 10000 })
+        await usernameInput.setValue('john@example.com')
 
-        // Check that the page has some content
-        const bodyText = await $('body').getText()
-        expect(bodyText.length).toBeGreaterThan(0)
-        console.log('✓ Page has content')
+        // Find the password input field using XPath and enter password
+        const passwordInput = await $('//input[@name="password"]')
+        await passwordInput.waitForDisplayed({ timeout: 10000 })
+        await passwordInput.setValue('admin123')
 
-        // Test responsive behavior by changing window size to mobile
-        await browser.setWindowSize(375, 667)
-        await browser.pause(500) // Allow time for responsive changes
+        const loginButton = await $('//button[text()="Sign in"]')
+        await loginButton.waitForDisplayed({ timeout: 10000 })
+        await loginButton.click()
 
-        // Verify app still works on mobile viewport
-        expect(await appContainer.isDisplayed()).toBe(true)
-        console.log('✓ App works on mobile viewport (375x667)')
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+    })
 
-        // Reset to desktop size
-        await browser.setWindowSize(1920, 1080)
-        expect(await appContainer.isDisplayed()).toBe(true)
-        console.log('✓ App works on desktop viewport (1920x1080)')
+    it('ui: Shop crawler', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
 
-        console.log('🎉 All basic functionality tests passed!')
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Shop crawler"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Shop Crawlers"]')
+    })
+
+    it('ui: Category crawler', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
+
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Category crawler"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Category Crawlers"]')
+    })
+
+    it('ui: Product crawler', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
+
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Product crawler"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Product Crawlers"]')
+    })
+
+    it('ui: Search crawler', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
+
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Search product"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Search Product"]')
+    })
+
+    it('ui: Configurations', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
+
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Configurations"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Crawler Configuration"]')
+    })
+
+    it('feature: add Shop crawler', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
+
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Shop crawler"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Shop Crawlers"]')
+        const addShopCrawler = await $('//button[text()="New link"]')
+        addShopCrawler.click()
+
+        const inputCrawlerName = await $('//input[@name="crawlerName"]')
+        const inputShopLink = await $('//input[@name="shopLink"]')
+
+        await inputCrawlerName.setValue('Test Shop Crawler')
+        await inputShopLink.setValue('https://example.com/shop')
+
+        const siteDropdown = await $('//div[@id="ecommerce-select"]')
+        await siteDropdown.click()
+
+        const siteOption = await $('//li[text()="Shopee"]')
+        await siteOption.click()
+
+        const saveButton = await $('//button[text()="Add link"]')
+        await saveButton.click()
+    })
+
+    it('ui: add Category crawler', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
+
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Category crawler"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Category Crawlers"]')
+
+        const addShopCrawler = await $('//button[text()="New link"]')
+        addShopCrawler.click()
+
+        const inputCrawlerName = await $('//input[@name="crawlerName"]')
+        const inputShopLink = await $('//input[@name="categoryLink"]')
+
+        await inputCrawlerName.setValue('Test Shop Crawler')
+        await inputShopLink.setValue('https://example.com/shop')
+
+        const siteDropdown = await $('//div[@id="ecommerce-select"]')
+        await siteDropdown.click()
+
+        const siteOption = await $('//li[text()="Shopee"]')
+        await siteOption.click()
+
+        const saveButton = await $('//button[text()="Add link"]')
+        await saveButton.click()
+    })
+
+    it('ui: Product crawler', async () => {
+        // Maximize browser window to full screen
+        await browser.maximizeWindow()
+
+        // Navigate to the production login page
+        await browser.url('https://price-comparison.site/admin')
+
+        const H4Title = await $('//h4[text()="Hi, Welcome back 👋"]')
+        await H4Title.waitForDisplayed({ timeout: 10000 })
+        expect(await H4Title.isDisplayed()).toBe(true)
+
+        const shopCrawlerSpan = await $('//span[text()="Product crawler"]')
+        await shopCrawlerSpan.click()
+
+        const shopCrawlerTitle = await $('//h4[text()="Product Crawlers"]')
+
+        const addShopCrawler = await $('//button[text()="New link"]')
+        addShopCrawler.click()
+
+        const inputCrawlerName = await $('//input[@name="crawlerName"]')
+        const inputShopLink = await $('//input[@name="productLink"]')
+
+        await inputCrawlerName.setValue('Test Shop Crawler')
+        await inputShopLink.setValue('https://example.com/shop')
+
+        const siteDropdown = await $('//div[@id="ecommerce-select"]')
+        await siteDropdown.click()
+
+        const siteOption = await $('//li[text()="Shopee"]')
+        await siteOption.click()
+
+        const saveButton = await $('//button[text()="Add link"]')
+        await saveButton.click()
     })
 })

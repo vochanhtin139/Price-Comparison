@@ -44,6 +44,15 @@ export const config = {
     connectionRetryCount: 3,
 
     //
+    // XPath Configuration
+    //
+    automationProtocol: 'webdriver',
+    locatorStrategy: {
+        xpathRoot: '//',
+        preferXpath: true
+    },
+
+    //
     // Test runner services
     services: [
         'edgedriver',
