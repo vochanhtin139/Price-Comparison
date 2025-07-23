@@ -8,6 +8,12 @@ node_modules
 # testing
 coverage
 
+# e2e testing
+test/screenshots/*.png
+wdio-*.log
+allure-results/
+allure-report/
+
 # production
 .next
 .swc
