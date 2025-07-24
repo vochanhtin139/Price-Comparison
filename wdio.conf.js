@@ -79,7 +79,14 @@ export const config = {
 
     //
     // Test reporter for stdout.
-    reporters: ['spec'],
+    reporters: [
+        'spec',
+        ['allure', {
+            outputDir: 'allure-results',
+            disableWebdriverStepsReporting: true,
+            disableWebdriverScreenshotsReporting: false,
+        }]
+    ],
 
     //
     // Options to be passed to Mocha.
@@ -115,6 +122,10 @@ export const config = {
     },
     afterTest: function (test, context, { error, result, duration, passed, retries }) {
         // Will be executed after the test and all after hooks have finished running
+        if (!passed) {
+            // Take screenshot on test failure
+            browser.takeScreenshot();
+        }
     },
     afterSuite: function (suite) {
         // Will be executed after a suite has ended
