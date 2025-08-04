@@ -75,11 +75,11 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
           <Label color={(row.status === 'banned' && 'error') || 'success'}>{row.status}</Label>
         </TableCell> */}
 
-        <TableCell align="right">
+        {/* <TableCell align="right">
           <IconButton onClick={handleOpenPopover}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
-        </TableCell>
+        </TableCell> */}
       </TableRow>
 
       <Popover

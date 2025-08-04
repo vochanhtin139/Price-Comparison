@@ -83,6 +83,7 @@ export function SearchProductView() {
         let finalResults = products
         if (filters.priceRange) {
             const [minPrice, maxPrice] = filters.priceRange
+            // console.log('filters.priceRange', filters.priceRange)
             finalResults = finalResults.filter(
                 (product) => Number(product.productPrice) >= minPrice && Number(product.productPrice) <= maxPrice
             )
@@ -91,8 +92,11 @@ export function SearchProductView() {
             const rating = parseInt(filters.productRating, 10)
             finalResults = finalResults.filter((product) => Number(product.productRating) >= rating)
         }
+        // console.log('finalResults after price filter', finalResults)
+
         setFinalProducts(finalResults)
     }, [products, filters])
+    console.log('finalProducts', finalProducts)
 
     return (
         <DashboardContent>
@@ -217,7 +221,7 @@ export function SearchProductView() {
                             value={filters.column || null}
                             onChange={(e) => handleInputChange('column', e.target.value)}
                             SelectProps={{ native: true }}
-                            // sx={{ maxWidth: 300 }}
+                        // sx={{ maxWidth: 300 }}
                         >
                             <option value='productName'>Product name</option>
                             {/* <option value='productLink'>Product link</option>
@@ -230,7 +234,7 @@ export function SearchProductView() {
                             value={filters.operator || null}
                             onChange={(e) => handleInputChange('operator', e.target.value)}
                             SelectProps={{ native: true }}
-                            // sx={{ maxWidth: 300 }}
+                        // sx={{ maxWidth: 300 }}
                         >
                             <option value='contains'>contains</option>
                             {/* <option value='equals'>equals</option>
@@ -411,8 +415,7 @@ export function SearchProductView() {
             <Grid container spacing={3} mt={4}>
                 {finalProducts?.map((product) => (
                     <Grid key={product.productName} xs={12} sm={6} md={3}>
-                        {/* <ProductItem product={product} ecommerceSite={product.ecommerceSite} type={product.type} /> */}
-                        <ProductItem product={product} ecommerceSite={'tiki'} type={'categoryLink'} />
+                        <ProductItem product={product} ecommerceSite={product.ecommerceSite} type={'categoryLink'} />
                     </Grid>
                 ))}
             </Grid>

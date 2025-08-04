@@ -88,7 +88,7 @@ export function UserView() {
                                     { id: 'role', label: 'Role' },
                                     { id: 'isActive', label: 'Active', align: 'center' },
                                     // { id: 'status', label: 'Status' },
-                                    { id: '' }
+                                    // { id: '' }
                                 ]}
                             />
                             <TableBody>

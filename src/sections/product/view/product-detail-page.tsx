@@ -113,151 +113,152 @@ export function ProductDetailPage() {
         <>
             {loading ? (
                 renderFallback
-            ) : product ? (
-                <Box sx={{ p: 4, bgcolor: 'white', m: 2, borderRadius: 2 }}>
-                    <Grid container spacing={4}>
-                        <Grid item xs={12} md={5}>
-                            <Paper elevation={0} sx={{ padding: 2 }}>
-                                <img
-                                    src={productImageLink[0]}
-                                    alt='product'
-                                    style={{ width: '100%', borderRadius: 8 }}
-                                />
-                            </Paper>
-                        </Grid>
+            ) :
+                product ? (
+                    <Box sx={{ p: 4, bgcolor: 'white', m: 2, borderRadius: 2 }}>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} md={5}>
+                                <Paper elevation={0} sx={{ padding: 2 }}>
+                                    <img
+                                        src={productImageLink[0]}
+                                        alt='product'
+                                        style={{ width: '100%', borderRadius: 8 }}
+                                    />
+                                </Paper>
+                            </Grid>
 
-                        <Grid item xs={12} md={7}>
-                            <Box>
-                                <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
-                                    {product?.productName}
-                                </Typography>
-
-                                <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 1 }}>
-                                    <Rating value={5} readOnly size='small' />
-                                    <Typography variant='body2' sx={{ marginLeft: 1 }}>
-                                        141 Reviews | 315 Sold
+                            <Grid item xs={12} md={7}>
+                                <Box>
+                                    <Typography variant='h5' sx={{ fontWeight: 'bold' }}>
+                                        {product?.productName}
                                     </Typography>
-                                </Box>
 
-                                <Box sx={{ marginTop: 2, bgcolor: '#FAFAFA', py: 1, px: 2 }}>
-                                    <Typography
-                                        variant='h4'
-                                        sx={{ fontWeight: 'bold', color: 'red', display: 'inline-block' }}
-                                    >
-                                        {fCurrency(
-                                            historicalData?.prices[historicalData?.prices.length - 1] ||
-                                                product?.productPrice
-                                        )}
-                                        &nbsp;
+                                    <Box sx={{ display: 'flex', alignItems: 'center', marginTop: 1 }}>
+                                        <Rating value={5} readOnly size='small' />
+                                        <Typography variant='body2' sx={{ marginLeft: 1 }}>
+                                            141 Reviews | 315 Sold
+                                        </Typography>
+                                    </Box>
+
+                                    <Box sx={{ marginTop: 2, bgcolor: '#FAFAFA', py: 1, px: 2 }}>
                                         <Typography
-                                            component='span'
-                                            variant='body1'
-                                            sx={{
-                                                color: 'text.disabled',
-                                                textDecoration: 'line-through'
-                                            }}
+                                            variant='h4'
+                                            sx={{ fontWeight: 'bold', color: 'red', display: 'inline-block' }}
                                         >
                                             {fCurrency(
-                                                parseInt((product?.productPrice ?? '0').replace(/\./g, ''), 10) + 599000
+                                                historicalData?.prices[historicalData?.prices.length - 1] ||
+                                                product?.productPrice
                                             )}
+                                            &nbsp;
+                                            <Typography
+                                                component='span'
+                                                variant='body1'
+                                                sx={{
+                                                    color: 'text.disabled',
+                                                    textDecoration: 'line-through'
+                                                }}
+                                            >
+                                                {fCurrency(
+                                                    parseInt((product?.productPrice ?? '0').replace(/\./g, ''), 10) + 599000
+                                                )}
+                                            </Typography>
                                         </Typography>
-                                    </Typography>
-                                </Box>
-
-                                {options && options.length > 0 && (
-                                    <Box sx={{ mt: 4 }}>
-                                        {options.map((group, groupIndex) => (
-                                            <Box key={groupIndex} sx={{ mb: 2 }}>
-                                                <Grid container spacing={1}>
-                                                    {group.map((value, i) => {
-                                                        const isSelected = selectedOptions[groupIndex] === value
-                                                        const isImage =
-                                                            value.startsWith('http') || value.startsWith('/')
-
-                                                        return (
-                                                            <Grid item key={i}>
-                                                                <Button
-                                                                    onClick={() =>
-                                                                        handleOptionSelect(groupIndex, value)
-                                                                    }
-                                                                    variant={isSelected ? 'contained' : 'outlined'}
-                                                                    sx={{
-                                                                        minWidth: 100,
-                                                                        height: 40,
-                                                                        p: 1,
-                                                                        display: 'flex',
-                                                                        flexDirection: 'column',
-                                                                        justifyContent: 'center',
-                                                                        alignItems: 'center',
-                                                                        border: isSelected
-                                                                            ? '2px solid #1976d2'
-                                                                            : '1px solid #ccc',
-                                                                        color: isSelected ? '#1976d2' : 'text.primary',
-                                                                        bgcolor: isSelected ? '#e3f2fd' : 'white',
-                                                                        '&:hover': {
-                                                                            bgcolor: 'inherit'
-                                                                        },
-                                                                        borderRadius: '6px'
-                                                                    }}
-                                                                >
-                                                                    {isImage ? (
-                                                                        <img
-                                                                            src={value}
-                                                                            alt={`Option ${groupIndex}-${i}`}
-                                                                            style={{
-                                                                                width: 40,
-                                                                                height: 40,
-                                                                                objectFit: 'cover'
-                                                                            }}
-                                                                        />
-                                                                    ) : (
-                                                                        <Typography variant='body2'>{value}</Typography>
-                                                                    )}
-                                                                </Button>
-                                                            </Grid>
-                                                        )
-                                                    })}
-                                                </Grid>
-                                            </Box>
-                                        ))}
                                     </Box>
-                                )}
 
-                                {product?.productLink && (
-                                    <Stack mt={2}>
-                                        <Button
-                                            component='a'
-                                            href={product.productLink}
-                                            variant='contained'
-                                            sx={{
-                                                textTransform: 'none',
-                                                fontSize: '16px'
-                                            }}
-                                            {...{
-                                                target: '_blank',
-                                                rel: 'noopener noreferrer'
-                                            }}
-                                        >
-                                            View product on {ecommerceSite?.toUpperCase() ?? 'Ecommerce Site'}
-                                        </Button>
-                                    </Stack>
-                                )}
+                                    {options && options.length > 0 && (
+                                        <Box sx={{ mt: 4 }}>
+                                            {options.map((group, groupIndex) => (
+                                                <Box key={groupIndex} sx={{ mb: 2 }}>
+                                                    <Grid container spacing={1}>
+                                                        {group.map((value, i) => {
+                                                            const isSelected = selectedOptions[groupIndex] === value
+                                                            const isImage =
+                                                                value.startsWith('http') || value.startsWith('/')
 
-                                {/* <Box sx={{ marginTop: 4, border: '1px solid #1977F2', borderRadius: 2, p: 2 }}>
+                                                            return (
+                                                                <Grid item key={i}>
+                                                                    <Button
+                                                                        onClick={() =>
+                                                                            handleOptionSelect(groupIndex, value)
+                                                                        }
+                                                                        variant={isSelected ? 'contained' : 'outlined'}
+                                                                        sx={{
+                                                                            minWidth: 100,
+                                                                            height: 40,
+                                                                            p: 1,
+                                                                            display: 'flex',
+                                                                            flexDirection: 'column',
+                                                                            justifyContent: 'center',
+                                                                            alignItems: 'center',
+                                                                            border: isSelected
+                                                                                ? '2px solid #1976d2'
+                                                                                : '1px solid #ccc',
+                                                                            color: isSelected ? '#1976d2' : 'text.primary',
+                                                                            bgcolor: isSelected ? '#e3f2fd' : 'white',
+                                                                            '&:hover': {
+                                                                                bgcolor: 'inherit'
+                                                                            },
+                                                                            borderRadius: '6px'
+                                                                        }}
+                                                                    >
+                                                                        {isImage ? (
+                                                                            <img
+                                                                                src={value}
+                                                                                alt={`Option ${groupIndex}-${i}`}
+                                                                                style={{
+                                                                                    width: 40,
+                                                                                    height: 40,
+                                                                                    objectFit: 'cover'
+                                                                                }}
+                                                                            />
+                                                                        ) : (
+                                                                            <Typography variant='body2'>{value}</Typography>
+                                                                        )}
+                                                                    </Button>
+                                                                </Grid>
+                                                            )
+                                                        })}
+                                                    </Grid>
+                                                </Box>
+                                            ))}
+                                        </Box>
+                                    )}
+
+                                    {product?.productLink && (
+                                        <Stack mt={2}>
+                                            <Button
+                                                component='a'
+                                                href={product.productLink}
+                                                variant='contained'
+                                                sx={{
+                                                    textTransform: 'none',
+                                                    fontSize: '16px'
+                                                }}
+                                                {...{
+                                                    target: '_blank',
+                                                    rel: 'noopener noreferrer'
+                                                }}
+                                            >
+                                                View product on {ecommerceSite?.toUpperCase() ?? 'Ecommerce Site'}
+                                            </Button>
+                                        </Stack>
+                                    )}
+
+                                    {/* <Box sx={{ marginTop: 4, border: '1px solid #1977F2', borderRadius: 2, p: 2 }}>
                                     <PriceChart data={products} historicalData={historicalData} />
                                 </Box> */}
-                            </Box>
+                                </Box>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Box sx={{ marginTop: 4, border: '1px solid #1977F2', borderRadius: 2, p: 2 }}>
-                        <PriceChart data={products} historicalData={historicalData} />
+                        <Box sx={{ marginTop: 4, border: '1px solid #1977F2', borderRadius: 2, p: 2 }}>
+                            <PriceChart data={products} historicalData={historicalData} />
+                        </Box>
                     </Box>
-                </Box>
-            ) : (
-                <Typography variant='h5' textAlign={'center'} mt={10}>
-                    Product not found
-                </Typography>
-            )}
+                ) : (
+                    <Typography variant='h5' textAlign={'center'} mt={10}>
+                        Product not found
+                    </Typography>
+                )}
         </>
     )
 }

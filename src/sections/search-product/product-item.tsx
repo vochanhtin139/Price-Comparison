@@ -72,7 +72,7 @@ export function ProductItem({
 
     const renderPrice = (
         <Typography variant='subtitle1' color='error' textAlign='end'>
-            <Typography
+            {/* <Typography
                 variant='caption'
                 sx={{
                     color: 'text.disabled',
@@ -80,7 +80,7 @@ export function ProductItem({
                 }}
             >
                 {fCurrency(parseInt(product.productPrice.replace(/\./g, ''), 10) + 599000)}
-            </Typography>
+            </Typography> */}
             <Typography
                 // component="span"
                 variant='body1'

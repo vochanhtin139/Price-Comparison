@@ -21,7 +21,9 @@ export default function useProduct() {
 
     const accessToken = localStorage.getItem('accessToken')
 
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+    // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+    const API_BASE_URL = 'http://localhost:8080/api'
+    // const API_BASE_URL = 'https://price-comparison.site/api'
 
     const fetchShopeeProducts = async () => {
         try {
@@ -89,7 +91,8 @@ export default function useProduct() {
             const encodedLink = encodeURIComponent(encodeURI(productLink))
             url = `${API_BASE_URL}/all-specific-${ecommerceSite}-product?productLink=${encodedLink}`
         } else {
-            url = `${API_BASE_URL}/all-${type === 'categoryLink' ? 'specific-' : ''}${ecommerceSite}-product?id=${id}`
+            // url = `${API_BASE_URL}/all-${type === 'categoryLink' ? 'specific-' : ''}${ecommerceSite}-product?id=${id}`
+            url = `${API_BASE_URL}/all-${ecommerceSite}-product?id=${id}`
         }
         try {
             setLoading(true)
@@ -99,6 +102,7 @@ export default function useProduct() {
                     Authorization: `Bearer ${accessToken}`
                 }
             })
+            console.log('fetchProductsById response', response.data)
             setProducts(response.data)
             setLoading(false)
         } catch (err: any) {
@@ -411,7 +415,7 @@ export default function useProduct() {
         try {
             console.log('fetchSearchProductResult', name)
             setLoading(true)
-            const response = await axios.get(`${API_BASE_URL}/search-product`, {
+            const response = await axios.get(`${API_BASE_URL}/typesense-search-product`, {
                 params: { name },
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -421,11 +425,33 @@ export default function useProduct() {
             })
             console.log('search product result', response.data)
             const allProducts = [
-                ...response.data.relatedProductsLazada,
-                ...response.data.relatedProductsShopee,
-                ...response.data.relatedProductsTiki
+                ...(response.data.relatedProductsLazada.map((item: any) => item.hits[0].document) || []),
+                ...(response.data.relatedProductsShopee.map((item: any) => item.hits[0].document) || []),
+                ...(response.data.relatedProductsTiki.map((item: any) => item.hits[0].document) || [])
+                // ...response.data.relatedProductsShopee,
+                // ...response.data.relatedProductsTiki
             ]
-            setProducts(allProducts)
+            // console.log('allProducts', allProducts)
+            const formattedProducts = allProducts.map((product: any) => ({
+                id: product.id,
+                productLinkId: product.product_link_id,
+                productName: product.product_name,
+                productPrice: product.product_price ?? 0,
+                productLink: product.product_link,
+                productImageLink: Array.isArray(product.product_image_link)
+                    ? product.product_image_link[0] // lấy ảnh đầu tiên nếu là mảng
+                    : product.product_image_link,
+                productRating: product.product_rating,
+                shopLink: product.shop_link || null,
+                crawlTime: product.crawl_time || null,
+                ecommerceSite: product.shop_link?.includes('lazada')
+                    ? 'lazada'
+                    : product.shop_link?.includes('shopee')
+                        ? 'shopee'
+                        : 'tiki',
+            }));
+            console.log('formattedProducts', formattedProducts)
+            setProducts(formattedProducts)
             setLoading(false)
         } catch (error) {
             console.error('Error fetching product detail:', error)
@@ -433,6 +459,32 @@ export default function useProduct() {
             setLoading(false)
         }
     }
+
+    // const fetchPriceComparisonDetail = async (name: string) => {
+    //     try {
+    //         setLoading(true)
+    //         const response = await axios.get(`${API_BASE_URL}/typesense-price-comparison-detail`, {
+    //             params: { name },
+    //             headers: {
+    //                 'Access-Control-Allow-Origin': '*',
+    //                 Authorization: `Bearer ${accessToken}`,
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         })
+    //         console.log('search product result', response.data)
+    //         const allProducts = [
+    //             ...response.data.relatedProductsLazada,
+    //             ...response.data.relatedProductsShopee,
+    //             ...response.data.relatedProductsTiki
+    //         ]
+    //         setProducts(allProducts)
+    //         setLoading(false)
+    //     } catch (error) {
+    //         console.error('Error fetching product detail:', error)
+    //         setError('Failed to fetch product detail')
+    //         setLoading(false)
+    //     }
+    // }
 
     return {
         loading,
