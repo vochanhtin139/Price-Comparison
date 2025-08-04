@@ -46,4 +46,4 @@ jobs:
             docker rm admin-frontend || true
 
             # Run a new container
-            docker run -d --name admin-frontend -p 80:80 vochanhtin139/admin-frontend:latest
+            docker run -d --name admin-frontend -p 81:81 vochanhtin139/admin-frontend:latest

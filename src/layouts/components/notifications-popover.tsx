@@ -209,7 +209,7 @@ function renderContent(notification: NotificationItemProps) {
       avatarUrl: (
         <img
           alt={notification.title}
-          src="/assets/icons/notification/ic-notification-package.svg"
+          src="/admin/assets/icons/notification/ic-notification-package.svg"
         />
       ),
       title,
@@ -220,7 +220,7 @@ function renderContent(notification: NotificationItemProps) {
       avatarUrl: (
         <img
           alt={notification.title}
-          src="/assets/icons/notification/ic-notification-shipping.svg"
+          src="/admin/assets/icons/notification/ic-notification-shipping.svg"
         />
       ),
       title,
@@ -229,7 +229,7 @@ function renderContent(notification: NotificationItemProps) {
   if (notification.type === 'mail') {
     return {
       avatarUrl: (
-        <img alt={notification.title} src="/assets/icons/notification/ic-notification-mail.svg" />
+        <img alt={notification.title} src="/admin/assets/icons/notification/ic-notification-mail.svg" />
       ),
       title,
     };
@@ -237,7 +237,7 @@ function renderContent(notification: NotificationItemProps) {
   if (notification.type === 'chat-message') {
     return {
       avatarUrl: (
-        <img alt={notification.title} src="/assets/icons/notification/ic-notification-chat.svg" />
+        <img alt={notification.title} src="/admin/assets/icons/notification/ic-notification-chat.svg" />
       ),
       title,
     };

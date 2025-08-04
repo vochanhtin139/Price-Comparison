@@ -1,4 +1,4 @@
-import { cleanedLink } from '../../utils/format-url';
+import { cleanedLink } from '../../utils/format-url'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -18,7 +18,7 @@ export default function useCategoryLink() {
     const fetchCategoryLinks = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<ICategoryLink[]>('http://localhost:8080/api/category-links', {
+            const response = await axios.get<ICategoryLink[]>('https://price-comparison.site/api/category-links', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -35,7 +35,7 @@ export default function useCategoryLink() {
     const fetchCategoryLink = async (id: string) => {
         try {
             setLoading(true)
-            const response = await axios.get<ICategoryLink>(`http://localhost:8080/api/category-links/${id}`, {
+            const response = await axios.get<ICategoryLink>(`https://price-comparison.site/api/category-links/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -65,19 +65,27 @@ export default function useCategoryLink() {
             setLoading(true)
             if (data.id) {
                 // Update existing CategoryLink (PUT request)
-                const response = await axios.put<ICategoryLink>(`http://localhost:8080/api/category-links/${data.id}`, data, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
+                const response = await axios.put<ICategoryLink>(
+                    `https://price-comparison.site/api/category-links/${data.id}`,
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
                     }
-                })
+                )
                 setSuccess('Updated successfully')
             } else {
                 // Create a new CategoryLink (POST request)
-                const response = await axios.post<ICategoryLink>('http://localhost:8080/api/category-links', data, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
+                const response = await axios.post<ICategoryLink>(
+                    'https://price-comparison.site/api/category-links',
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
                     }
-                })
+                )
                 setSuccess('Created successfully')
             }
             setLoading(false)

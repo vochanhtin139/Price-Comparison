@@ -17,7 +17,7 @@ export default function useProductLink() {
     const fetchProductLinks = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<IProductLink[]>('http://localhost:8080/api/product-links', {
+            const response = await axios.get<IProductLink[]>('https://price-comparison.site/api/product-links', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -34,7 +34,7 @@ export default function useProductLink() {
     const fetchProductLink = async (id: string) => {
         try {
             setLoading(true)
-            const response = await axios.get<IProductLink>(`http://localhost:8080/api/product-links/${id}`, {
+            const response = await axios.get<IProductLink>(`https://price-comparison.site/api/product-links/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -63,7 +63,7 @@ export default function useProductLink() {
             if (data.id) {
                 // Update existing ProductLink (PUT request)
                 const response = await axios.put<IProductLink>(
-                    `http://localhost:8080/api/product-links/${data.id}`,
+                    `https://price-comparison.site/api/product-links/${data.id}`,
                     data,
                     {
                         headers: {
@@ -74,11 +74,15 @@ export default function useProductLink() {
                 setSuccess('Updated successfully')
             } else {
                 // Create a new ProductLink (POST request)
-                const response = await axios.post<IProductLink>('http://localhost:8080/api/product-links', data, {
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
+                const response = await axios.post<IProductLink>(
+                    'https://price-comparison.site/api/product-links',
+                    data,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
                     }
-                })
+                )
                 setSuccess('Created successfully')
             }
             setLoading(false)
