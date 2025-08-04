@@ -116,9 +116,9 @@ export function ProductsView() {
                 Products
             </Typography>
 
-            <CartIcon totalItems={8} />
+            {/* <CartIcon totalItems={8} /> */}
 
-            <Box display='flex' alignItems='center' flexWrap='wrap-reverse' justifyContent='flex-end' sx={{ mb: 5 }}>
+            {/* <Box display='flex' alignItems='center' flexWrap='wrap-reverse' justifyContent='flex-end' sx={{ mb: 5 }}>
                 <Box gap={1} display='flex' flexShrink={0} sx={{ my: 1 }}>
                     <ProductFilters
                         canReset={canReset}
@@ -148,7 +148,7 @@ export function ProductsView() {
                         ]}
                     />
                 </Box>
-            </Box>
+            </Box> */}
 
             <Grid container spacing={3}>
                 {loading || products.length > 0 ? (

@@ -7,6 +7,8 @@ import IXPath, { ICrawlField } from './config.interface'
 import { crawlFieldSchema, xPathSchema } from './domain'
 import { enqueueSnackbar } from 'notistack'
 
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
+// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 export default function useConfig() {
     const [loading, setLoading] = useState<boolean>(false)
     const [loading2, setLoading2] = useState<boolean>(false)
@@ -23,7 +25,7 @@ export default function useConfig() {
     const fetchXPaths = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<IXPath[]>('https://price-comparison.site/api/xpath', {
+            const response = await axios.get<IXPath[]>(`${API_ENDPOINT_URL}/xpath`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -38,8 +40,8 @@ export default function useConfig() {
     }
 
     const fetchCrawlFields = async (type: string) => {
-        let url = `https://price-comparison.site/api/product-field`
-        if (type === 'specific_product_field') url = `https://price-comparison.site/api/specific-product-field`
+        let url = `${API_ENDPOINT_URL}/product-field`
+        if (type === 'specific_product_field') url = `${API_ENDPOINT_URL}/specific-product-field`
         try {
             setLoading2(true)
             const response = await axios.get<ICrawlField[]>(url, {
@@ -87,7 +89,7 @@ export default function useConfig() {
             setLoading(true)
             if (data.id) {
                 // Update existing XPath (PUT request)
-                const response = await axios.put<IXPath>(`https://price-comparison.site/api/xpath/${data.id}`, data, {
+                const response = await axios.put<IXPath>(`${API_ENDPOINT_URL}/xpath/${data.id}`, data, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -96,7 +98,7 @@ export default function useConfig() {
                 enqueueSnackbar('Updated successfully', { variant: 'success' })
             } else {
                 // Create a new XPath (POST request)
-                const response = await axios.post<IXPath>('https://price-comparison.site/api/xpath', data, {
+                const response = await axios.post<IXPath>(`${API_ENDPOINT_URL}/xpath`, data, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -116,8 +118,8 @@ export default function useConfig() {
     }
 
     const handleSubmitCrawlField: SubmitHandler<ICrawlField> = async (data) => {
-        let url = `https://price-comparison.site/api/product-field`
-        if (data.type === 'specific_product_field') url = `https://price-comparison.site/api/specific-product-field`
+        let url = `${API_ENDPOINT_URL}/product-field`
+        if (data.type === 'specific_product_field') url = `${API_ENDPOINT_URL}/specific-product-field`
         try {
             setLoading2(true)
             if (data.id) {
@@ -154,7 +156,7 @@ export default function useConfig() {
     const handleDeleteXPath = async (id: string) => {
         try {
             setLoading(true)
-            await axios.delete(`https://price-comparison.site/api/xpath/${id}`, {
+            await axios.delete(`${API_ENDPOINT_URL}/xpath/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -171,8 +173,8 @@ export default function useConfig() {
     }
 
     const handleDeleteCrawlField = async (id: string, type: string) => {
-        let url = `https://price-comparison.site/api/product-field`
-        if (type === 'specific_product_field') url = `https://price-comparison.site/api/specific-product-field`
+        let url = `${API_ENDPOINT_URL}/product-field`
+        if (type === 'specific_product_field') url = `${API_ENDPOINT_URL}/specific-product-field`
         try {
             setLoading2(true)
             await axios.delete(`${url}/${id}`, {

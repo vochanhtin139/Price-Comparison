@@ -5,6 +5,9 @@ import IProductLink from './productlink.interface'
 import { productLinkSchema } from './domain'
 import axios from 'axios'
 
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
+// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+
 export default function useProductLink() {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<any>(null)
@@ -17,7 +20,7 @@ export default function useProductLink() {
     const fetchProductLinks = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<IProductLink[]>('https://price-comparison.site/api/product-links', {
+            const response = await axios.get<IProductLink[]>(`${API_ENDPOINT_URL}/product-links`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -34,7 +37,7 @@ export default function useProductLink() {
     const fetchProductLink = async (id: string) => {
         try {
             setLoading(true)
-            const response = await axios.get<IProductLink>(`https://price-comparison.site/api/product-links/${id}`, {
+            const response = await axios.get<IProductLink>(`${API_ENDPOINT_URL}/product-links/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -63,7 +66,7 @@ export default function useProductLink() {
             if (data.id) {
                 // Update existing ProductLink (PUT request)
                 const response = await axios.put<IProductLink>(
-                    `https://price-comparison.site/api/product-links/${data.id}`,
+                    `${API_ENDPOINT_URL}/product-links/${data.id}`,
                     data,
                     {
                         headers: {
@@ -75,7 +78,7 @@ export default function useProductLink() {
             } else {
                 // Create a new ProductLink (POST request)
                 const response = await axios.post<IProductLink>(
-                    'https://price-comparison.site/api/product-links',
+                    `${API_ENDPOINT_URL}/product-links`,
                     data,
                     {
                         headers: {

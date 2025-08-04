@@ -14,8 +14,8 @@ import {
 // ----------------------------------------------------------------------
 
 export const _myAccount = {
-  displayName: 'Jaydon Frankie',
-  email: 'heysheep@heysheep.sg',
+  displayName: 'Admin Portal',
+  email: 'PriceWise Admin',
   photoURL: '/admin/assets/images/avatar/avatar-25.webp',
 };
 

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -23,19 +23,26 @@ import { UserTableToolbar } from '../user-table-toolbar'
 import { emptyRows, applyFilter, getComparator } from '../utils'
 
 import type { UserProps } from '../user-table-row'
+import useUser from 'src/hooks/user'
+import IUser from 'src/hooks/user/user.interface'
 
 // ----------------------------------------------------------------------
 
 export function UserView() {
+    const {error, success, users, fetchUsers } = useUser()
     const table = useTable()
 
     const [filterName, setFilterName] = useState('')
 
-    const dataFiltered: UserProps[] = applyFilter({
-        inputData: _users,
+    const dataFiltered: IUser[] = applyFilter({
+        inputData: users,
         comparator: getComparator(table.order, table.orderBy),
         filterName
     })
+
+    useEffect(() => {
+        fetchUsers()
+    }, [])
 
     const notFound = !dataFiltered.length && !!filterName
 
@@ -45,9 +52,9 @@ export function UserView() {
                 <Typography variant='h4' flexGrow={1}>
                     Users
                 </Typography>
-                <Button variant='contained' color='inherit' startIcon={<Iconify icon='mingcute:add-line' />}>
+                {/* <Button variant='contained' color='inherit' startIcon={<Iconify icon='mingcute:add-line' />}>
                     New user
-                </Button>
+                </Button> */}
             </Box>
 
             <Card>
@@ -77,10 +84,10 @@ export function UserView() {
                                 }
                                 headLabel={[
                                     { id: 'name', label: 'Name' },
-                                    { id: 'company', label: 'Company' },
+                                    { id: 'email', label: 'Email' },
                                     { id: 'role', label: 'Role' },
-                                    { id: 'isVerified', label: 'Verified', align: 'center' },
-                                    { id: 'status', label: 'Status' },
+                                    { id: 'isActive', label: 'Active', align: 'center' },
+                                    // { id: 'status', label: 'Status' },
                                     { id: '' }
                                 ]}
                             />

@@ -6,6 +6,8 @@ import IShopLink from './shoplink.interface'
 import { shopLinkSchema } from './domain'
 import axios from 'axios'
 
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
+// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 export default function useShopLink() {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<any>(null)
@@ -18,7 +20,7 @@ export default function useShopLink() {
     const fetchShopLinks = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<IShopLink[]>('https://price-comparison.site/api/shop-links', {
+            const response = await axios.get<IShopLink[]>(`${API_ENDPOINT_URL}/shop-links`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -35,7 +37,7 @@ export default function useShopLink() {
     const fetchShopLink = async (id: string) => {
         try {
             setLoading(true)
-            const response = await axios.get<IShopLink>(`https://price-comparison.site/api/shop-links/${id}`, {
+            const response = await axios.get<IShopLink>(`${API_ENDPOINT_URL}/shop-links/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -66,7 +68,7 @@ export default function useShopLink() {
             if (data.id) {
                 // Update existing ShopLink (PUT request)
                 const response = await axios.put<IShopLink>(
-                    `https://price-comparison.site/api/shop-links/${data.id}`,
+                    `${API_ENDPOINT_URL}/shop-links/${data.id}`,
                     data,
                     {
                         headers: {
@@ -77,7 +79,7 @@ export default function useShopLink() {
                 setSuccess('Updated successfully')
             } else {
                 // Create a new ShopLink (POST request)
-                const response = await axios.post<IShopLink>('https://price-comparison.site/api/shop-links', data, {
+                const response = await axios.post<IShopLink>(`${API_ENDPOINT_URL}/shop-links`, data, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }

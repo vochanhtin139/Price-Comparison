@@ -6,6 +6,9 @@ import ICategoryLink from './categorylink.interface'
 import { categoryLinkSchema } from './domain'
 import axios from 'axios'
 
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
+// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+
 export default function useCategoryLink() {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<any>(null)
@@ -18,7 +21,7 @@ export default function useCategoryLink() {
     const fetchCategoryLinks = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<ICategoryLink[]>('https://price-comparison.site/api/category-links', {
+            const response = await axios.get<ICategoryLink[]>(`${API_ENDPOINT_URL}/category-links`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -35,7 +38,7 @@ export default function useCategoryLink() {
     const fetchCategoryLink = async (id: string) => {
         try {
             setLoading(true)
-            const response = await axios.get<ICategoryLink>(`https://price-comparison.site/api/category-links/${id}`, {
+            const response = await axios.get<ICategoryLink>(`${API_ENDPOINT_URL}/category-links/${id}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -66,7 +69,7 @@ export default function useCategoryLink() {
             if (data.id) {
                 // Update existing CategoryLink (PUT request)
                 const response = await axios.put<ICategoryLink>(
-                    `https://price-comparison.site/api/category-links/${data.id}`,
+                    `${API_ENDPOINT_URL}/category-links/${data.id}`,
                     data,
                     {
                         headers: {
@@ -78,7 +81,7 @@ export default function useCategoryLink() {
             } else {
                 // Create a new CategoryLink (POST request)
                 const response = await axios.post<ICategoryLink>(
-                    'https://price-comparison.site/api/category-links',
+                    `${API_ENDPOINT_URL}/category-links`,
                     data,
                     {
                         headers: {

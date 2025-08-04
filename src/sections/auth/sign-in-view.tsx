@@ -16,6 +16,8 @@ import { enqueueSnackbar } from 'notistack'
 import { set } from 'react-hook-form'
 
 // ----------------------------------------------------------------------
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
+// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 
 export function SignInView() {
     const router = useRouter()
@@ -32,7 +34,7 @@ export function SignInView() {
             const username = usernameRef.current?.value
             const password = passwordRef.current?.value
 
-            const response = await fetch('https://price-comparison.site/api/auth/login', {
+            const response = await fetch(`${API_ENDPOINT_URL}/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
