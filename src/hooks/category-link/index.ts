@@ -6,8 +6,8 @@ import ICategoryLink from './categorylink.interface'
 import { categoryLinkSchema } from './domain'
 import axios from 'axios'
 
-const API_ENDPOINT_URL = 'http://localhost:8080/api'
-// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+// const API_ENDPOINT_URL = 'http://localhost:8080/api'
+const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 
 export default function useCategoryLink() {
     const [loading, setLoading] = useState<boolean>(false)

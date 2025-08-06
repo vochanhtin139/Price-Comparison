@@ -6,8 +6,8 @@ import IShopLink from './shoplink.interface'
 import { shopLinkSchema } from './domain'
 import axios from 'axios'
 
-const API_ENDPOINT_URL = 'http://localhost:8080/api'
-// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+// const API_ENDPOINT_URL = 'http://localhost:8080/api'
+const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 export default function useShopLink() {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<any>(null)

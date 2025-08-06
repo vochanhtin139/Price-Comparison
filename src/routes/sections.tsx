@@ -53,8 +53,8 @@ export const renderFallback = (
 //   return accessToken ? <>{children}</> : <Navigate to="/sign-in" replace />;
 // };
 
-const API_ENDPOINT_URL = 'http://localhost:8080/api'
-// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+// const API_ENDPOINT_URL = 'http://localhost:8080/api'
+const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const [isValid, setIsValid] = useState<boolean | null>(null)
 
