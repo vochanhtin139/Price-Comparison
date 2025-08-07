@@ -6,8 +6,8 @@ import IUser from './user.interface'
 import { userSchema } from './domain'
 import axios from 'axios'
 
-// const API_ENDPOINT_URL = 'http://localhost:8080/api'
-const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
+// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 
 export default function useUser() {
     const [loading, setLoading] = useState<boolean>(false)
@@ -52,9 +52,44 @@ export default function useUser() {
         }
     }
 
-    // const handleDelete = async (id: string) => {
-    //     await deleteUser(setLoading, setError, setSuccess, id)
-    // }
+    const addAdmin = async (data: Omit<IUser, 'id' | 'isActive' | 'role'> & { password: string }) => {
+        try {
+            setLoading(true)
+            const response = await axios.post(`${API_ENDPOINT_URL}/auth/add-admin`, data, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            setSuccess(response.data)
+            setError(null)
+            setLoading(false)
+        } catch (err: any) {
+            console.error(err)
+            setError(err.response?.data || err)
+            setSuccess(null)
+            setLoading(false)
+        }
+    }
+
+    const deleteUser = async (id: string) => {
+        console.log('Access Token:', accessToken)
+        try {
+            setLoading(true)
+            const response = await axios.delete(`${API_ENDPOINT_URL}/auth/users/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
+            setSuccess(response.data)
+            setError(null)
+            setLoading(false)
+        } catch (err: any) {
+            console.error(err)
+            setError(err.response?.data || err)
+            setSuccess(null)
+            setLoading(false)
+        }
+    }
 
     return {
         loading,
@@ -64,5 +99,7 @@ export default function useUser() {
         user,
         fetchUsers,
         fetchUser,
+        addAdmin,
+        deleteUser
     }
 }

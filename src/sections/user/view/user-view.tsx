@@ -46,6 +46,10 @@ export function UserView() {
 
     const notFound = !dataFiltered.length && !!filterName
 
+    const handleAfterDeleteRow = (id: string) => {
+        fetchUsers()
+    }
+
     return (
         <DashboardContent>
             <Box display='flex' alignItems='center' mb={5}>
@@ -88,7 +92,7 @@ export function UserView() {
                                     { id: 'role', label: 'Role' },
                                     { id: 'isActive', label: 'Active', align: 'center' },
                                     // { id: 'status', label: 'Status' },
-                                    // { id: '' }
+                                    { id: '' }
                                 ]}
                             />
                             <TableBody>
@@ -103,6 +107,7 @@ export function UserView() {
                                             row={row}
                                             selected={table.selected.includes(row.id)}
                                             onSelectRow={() => table.onSelectRow(row.id)}
+                                            onDeleteRow={handleAfterDeleteRow}
                                         />
                                     ))}
 
@@ -120,7 +125,7 @@ export function UserView() {
                 <TablePagination
                     component='div'
                     page={table.page}
-                    count={_users.length}
+                    count={users.length}
                     rowsPerPage={table.rowsPerPage}
                     onPageChange={table.onChangePage}
                     rowsPerPageOptions={[5, 10, 25]}
@@ -136,7 +141,7 @@ export function UserView() {
 export function useTable() {
     const [page, setPage] = useState(0)
     const [orderBy, setOrderBy] = useState('name')
-    const [rowsPerPage, setRowsPerPage] = useState(5)
+    const [rowsPerPage, setRowsPerPage] = useState(10)
     const [selected, setSelected] = useState<string[]>([])
     const [order, setOrder] = useState<'asc' | 'desc'>('asc')
 

@@ -16,8 +16,8 @@ import { enqueueSnackbar } from 'notistack'
 import { set } from 'react-hook-form'
 
 // ----------------------------------------------------------------------
-// const API_ENDPOINT_URL = 'http://localhost:8080/api'
-const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
+// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 
 export function SignInView() {
     const router = useRouter()

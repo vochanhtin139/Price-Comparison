@@ -31,6 +31,7 @@ export function OverviewAnalyticsView() {
     fetchShopLinks();
     fetchCategoryLinks();
     fetchProductLinks();
+    fetchUsers();
   }, []);
 
   return (
