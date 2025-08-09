@@ -3,7 +3,7 @@ import { useState, useCallback, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Table from '@mui/material/Table'
-import Button from '@mui/material/Button'
+// import Button from '@mui/material/Button'
 import TableBody from '@mui/material/TableBody'
 import Typography from '@mui/material/Typography'
 import TableContainer from '@mui/material/TableContainer'
@@ -25,11 +25,14 @@ import { emptyRows, applyFilter, getComparator } from '../utils'
 import type { UserProps } from '../user-table-row'
 import useUser from 'src/hooks/user'
 import IUser from 'src/hooks/user/user.interface'
+import { enqueueSnackbar } from 'notistack'
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material'
+import Button from 'src/components/button'
 
 // ----------------------------------------------------------------------
 
 export function UserView() {
-    const {error, success, users, fetchUsers } = useUser()
+    const { loading, error, success, users, fetchUsers, addAdmin } = useUser()
     const table = useTable()
 
     const [filterName, setFilterName] = useState('')
@@ -46,9 +49,50 @@ export function UserView() {
 
     const notFound = !dataFiltered.length && !!filterName
 
-    const handleAfterDeleteRow = (id: string) => {
+    const handleAfterAction = () => {
         fetchUsers()
     }
+
+    const [openDialog, setOpenDialog] = useState(false)
+    const [formData, setFormData] = useState({
+        adminUsername: '',
+        adminEmail: '',
+        adminFirstName: '',
+        adminLastName: '',
+        adminPassword: ''
+    })
+
+    const handleOpenDialog = () => setOpenDialog(true)
+    const handleCloseDialog = () => setOpenDialog(false)
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
+    }
+
+    const handleSaveAdmin = async () => {
+        try {
+            await addAdmin(formData) // Gọi API
+            // enqueueSnackbar('Admin added successfully', { variant: 'success' })
+            handleCloseDialog()
+            handleAfterAction()
+        } catch (err: any) {
+            // enqueueSnackbar(err.message || 'Failed to add admin', { variant: 'error' })
+            console.error(err)
+        }
+    }
+
+    useEffect(() => {
+        if (error) {
+            enqueueSnackbar(error.message || 'An error occurred', { variant: 'error' })
+        }
+    }, [error])
+
+    useEffect(() => {
+        if (success) {
+            enqueueSnackbar(success.message || 'Action successful', { variant: 'success' })
+        }
+    }, [success])
 
     return (
         <DashboardContent>
@@ -56,9 +100,14 @@ export function UserView() {
                 <Typography variant='h4' flexGrow={1}>
                     Users
                 </Typography>
-                {/* <Button variant='contained' color='inherit' startIcon={<Iconify icon='mingcute:add-line' />}>
-                    New user
-                </Button> */}
+                <Button
+                    variant='contained'
+                    color='inherit'
+                    startIcon={<Iconify icon='mingcute:add-line' />}
+                    onClick={handleOpenDialog}
+                >
+                    Add admin
+                </Button>
             </Box>
 
             <Card>
@@ -107,7 +156,7 @@ export function UserView() {
                                             row={row}
                                             selected={table.selected.includes(row.id)}
                                             onSelectRow={() => table.onSelectRow(row.id)}
-                                            onDeleteRow={handleAfterDeleteRow}
+                                            onDeleteRow={handleAfterAction}
                                         />
                                     ))}
 
@@ -132,6 +181,58 @@ export function UserView() {
                     onRowsPerPageChange={table.onChangeRowsPerPage}
                 />
             </Card>
+            <Dialog open={openDialog} onClose={handleCloseDialog} fullWidth maxWidth='sm'>
+                <DialogTitle>Add New Admin</DialogTitle>
+                <DialogContent dividers>
+                    <TextField
+                        label='Username'
+                        name='adminUsername'
+                        value={formData.adminUsername}
+                        onChange={handleChange}
+                        fullWidth
+                        margin='normal'
+                    />
+                    <TextField
+                        label='Email'
+                        name='adminEmail'
+                        value={formData.adminEmail}
+                        onChange={handleChange}
+                        fullWidth
+                        margin='normal'
+                    />
+                    <TextField
+                        label='First Name'
+                        name='adminFirstName'
+                        value={formData.adminFirstName}
+                        onChange={handleChange}
+                        fullWidth
+                        margin='normal'
+                    />
+                    <TextField
+                        label='Last Name'
+                        name='adminLastName'
+                        value={formData.adminLastName}
+                        onChange={handleChange}
+                        fullWidth
+                        margin='normal'
+                    />
+                    <TextField
+                        label='Password'
+                        name='adminPassword'
+                        // type='password'
+                        value={formData.adminPassword}
+                        onChange={handleChange}
+                        fullWidth
+                        margin='normal'
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDialog}>Cancel</Button>
+                    <Button variant='contained' onClick={handleSaveAdmin} loading={loading}>
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </DashboardContent>
     )
 }

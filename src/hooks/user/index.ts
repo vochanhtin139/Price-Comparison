@@ -2,7 +2,7 @@ import { cleanedLink } from '../../utils/format-url'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import IUser from './user.interface'
+import IUser, { AddAdminOptions } from './user.interface'
 import { userSchema } from './domain'
 import axios from 'axios'
 
@@ -52,10 +52,17 @@ export default function useUser() {
         }
     }
 
-    const addAdmin = async (data: Omit<IUser, 'id' | 'isActive' | 'role'> & { password: string }) => {
+    const addAdmin = async (data: AddAdminOptions) => {
+        const body = {
+            username: data.adminUsername,
+            email: data.adminEmail,
+            firstName: data.adminFirstName,
+            lastName: data.adminLastName,
+            password: data.adminPassword
+        }
         try {
             setLoading(true)
-            const response = await axios.post(`${API_ENDPOINT_URL}/auth/add-admin`, data, {
+            const response = await axios.post(`${API_ENDPOINT_URL}/auth/add-admin`, body, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }

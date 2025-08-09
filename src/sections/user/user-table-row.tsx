@@ -33,7 +33,7 @@ type UserTableRowProps = {
     row: IUser
     selected: boolean
     onSelectRow: () => void
-    onDeleteRow?: (id: string) => void
+    onDeleteRow?: () => void
 }
 
 export function UserTableRow({ row, selected, onDeleteRow }: UserTableRowProps) {
@@ -52,7 +52,7 @@ export function UserTableRow({ row, selected, onDeleteRow }: UserTableRowProps) 
     const handleDeleteUser = useCallback(async () => {
         try {
             await deleteUser(row.id)
-            onDeleteRow?.(row.id)
+            onDeleteRow?.()
         } catch (err) {
             console.error('Failed to delete user:', err)
         } finally {
