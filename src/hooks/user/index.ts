@@ -6,8 +6,8 @@ import IUser, { AddAdminOptions } from './user.interface'
 import { userSchema } from './domain'
 import axios from 'axios'
 
-const API_ENDPOINT_URL = 'http://localhost:8080/api'
-// const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+// const API_ENDPOINT_URL = 'http://localhost:8080/api'
+const API_ENDPOINT_URL = 'https://price-comparison.site/api'
 
 export default function useUser() {
     const [loading, setLoading] = useState<boolean>(false)
