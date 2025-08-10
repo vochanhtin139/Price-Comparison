@@ -43,7 +43,7 @@ export function OverviewAnalyticsView() {
       <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
           <AnalyticsWidgetSummary
-            title='Total users'
+            title='Total user'
             percent={-0.1}
             total={users.length || 20}
             color='secondary'
@@ -56,7 +56,7 @@ export function OverviewAnalyticsView() {
         </Grid>
         <Grid xs={12} sm={6} md={3}>
           <AnalyticsWidgetSummary
-            title='Shop crawlers'
+            title='Shop crawler'
             percent={2.6}
             total={shopLinks.length}
             icon={<img alt='icon' src='/admin/assets/icons/glass/ic-glass-bag.svg' />}
@@ -69,8 +69,8 @@ export function OverviewAnalyticsView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AnalyticsWidgetSummary
-            title='Category crawlers'
-            percent={2.8}
+            title='Category crawler'
+            percent={-1}
             total={categoryLinks.length}
             color='warning'
             icon={<img alt='icon' src='/admin/assets/icons/glass/ic-glass-buy.svg' />}
@@ -83,7 +83,7 @@ export function OverviewAnalyticsView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AnalyticsWidgetSummary
-            title='Product crawlers'
+            title='Product crawler'
             percent={3.6}
             total={productLinks.length}
             color='error'

@@ -116,7 +116,7 @@ export function AnalyticsWidgetSummary({
           type="line"
           series={[{ data: chart.series }]}
           options={chartOptions}
-          width={84}
+          width={76}
           height={56}
         />
       </Box>

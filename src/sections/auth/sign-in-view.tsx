@@ -76,7 +76,7 @@ export function SignInView() {
             <TextField
                 fullWidth
                 name='username'
-                label='Username address'
+                label='Username'
                 defaultValue=''
                 inputRef={usernameRef}
                 placeholder='Username or email address'
