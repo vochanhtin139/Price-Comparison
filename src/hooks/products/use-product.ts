@@ -21,7 +21,7 @@ export default function useProduct() {
 
     // const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
     // const API_BASE_URL = 'http://localhost:8080/api'
-    const API_BASE_URL = 'https://price-comparison.site/api'
+    const API_BASE_URL = 'http://localhost:8080/api'
 
     const fetchShopeeProducts = async () => {
         try {
@@ -445,9 +445,9 @@ export default function useProduct() {
                 ecommerceSite: product.shop_link?.includes('lazada')
                     ? 'lazada'
                     : product.shop_link?.includes('shopee')
-                        ? 'shopee'
-                        : 'tiki',
-            }));
+                      ? 'shopee'
+                      : 'tiki'
+            }))
             console.log('formattedProducts', formattedProducts)
             setProducts(formattedProducts)
             setLoading(false)

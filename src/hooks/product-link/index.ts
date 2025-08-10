@@ -6,7 +6,7 @@ import { productLinkSchema } from './domain'
 import axios from 'axios'
 
 // const API_ENDPOINT_URL = 'http://localhost:8080/api'
-const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
 
 export default function useProductLink() {
     const [loading, setLoading] = useState<boolean>(false)
@@ -65,27 +65,19 @@ export default function useProductLink() {
             setLoading(true)
             if (data.id) {
                 // Update existing ProductLink (PUT request)
-                const response = await axios.put<IProductLink>(
-                    `${API_ENDPOINT_URL}/product-links/${data.id}`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
+                const response = await axios.put<IProductLink>(`${API_ENDPOINT_URL}/product-links/${data.id}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                )
+                })
                 setSuccess('Updated successfully')
             } else {
                 // Create a new ProductLink (POST request)
-                const response = await axios.post<IProductLink>(
-                    `${API_ENDPOINT_URL}/product-links`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
+                const response = await axios.post<IProductLink>(`${API_ENDPOINT_URL}/product-links`, data, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                )
+                })
                 setSuccess('Created successfully')
             }
             setLoading(false)

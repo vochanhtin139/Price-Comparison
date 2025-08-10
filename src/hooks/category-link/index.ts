@@ -7,7 +7,7 @@ import { categoryLinkSchema } from './domain'
 import axios from 'axios'
 
 // const API_ENDPOINT_URL = 'http://localhost:8080/api'
-const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
 
 export default function useCategoryLink() {
     const [loading, setLoading] = useState<boolean>(false)
@@ -68,27 +68,19 @@ export default function useCategoryLink() {
             setLoading(true)
             if (data.id) {
                 // Update existing CategoryLink (PUT request)
-                const response = await axios.put<ICategoryLink>(
-                    `${API_ENDPOINT_URL}/category-links/${data.id}`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
+                const response = await axios.put<ICategoryLink>(`${API_ENDPOINT_URL}/category-links/${data.id}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                )
+                })
                 setSuccess('Updated successfully')
             } else {
                 // Create a new CategoryLink (POST request)
-                const response = await axios.post<ICategoryLink>(
-                    `${API_ENDPOINT_URL}/category-links`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
+                const response = await axios.post<ICategoryLink>(`${API_ENDPOINT_URL}/category-links`, data, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                )
+                })
                 setSuccess('Created successfully')
             }
             setLoading(false)

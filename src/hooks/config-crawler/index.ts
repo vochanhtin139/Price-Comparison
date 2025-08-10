@@ -8,7 +8,7 @@ import { crawlFieldSchema, xPathSchema } from './domain'
 import { enqueueSnackbar } from 'notistack'
 
 // const API_ENDPOINT_URL = 'http://localhost:8080/api'
-const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
 export default function useConfig() {
     const [loading, setLoading] = useState<boolean>(false)
     const [loading2, setLoading2] = useState<boolean>(false)

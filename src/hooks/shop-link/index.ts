@@ -7,7 +7,7 @@ import { shopLinkSchema } from './domain'
 import axios from 'axios'
 
 // const API_ENDPOINT_URL = 'http://localhost:8080/api'
-const API_ENDPOINT_URL = 'https://price-comparison.site/api'
+const API_ENDPOINT_URL = 'http://localhost:8080/api'
 export default function useShopLink() {
     const [loading, setLoading] = useState<boolean>(false)
     const [error, setError] = useState<any>(null)
@@ -67,15 +67,11 @@ export default function useShopLink() {
             setLoading(true)
             if (data.id) {
                 // Update existing ShopLink (PUT request)
-                const response = await axios.put<IShopLink>(
-                    `${API_ENDPOINT_URL}/shop-links/${data.id}`,
-                    data,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
+                const response = await axios.put<IShopLink>(`${API_ENDPOINT_URL}/shop-links/${data.id}`, data, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
                     }
-                )
+                })
                 setSuccess('Updated successfully')
             } else {
                 // Create a new ShopLink (POST request)
